@@ -1957,6 +1957,149 @@
 * Fork is another [GitHub](https://github.com/) repo; clone is a machine; we only forked <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Compared across forks and synced; did not open the upstream pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Next: Conflicts and History Repair in the Browser <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Conflicts and History Repair in the Browser <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+## Conflicts and History Repair in the Browser <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Git](https://git-scm.com/) stops when two commits change the same line <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Still `hello-git` in the browser; no local [Git](https://git-scm.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Resolve in the [GitHub](https://github.com/) editor, merge, then revert <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Repair adds a commit; the old snapshots stay <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Why Conflicts Happen <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Why Conflicts Happen <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* [Git](https://git-scm.com/) compares both tips with their common ancestor <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Different lines or different files can merge alone <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Merge conflicts](https://docs.github.com/en/pull-requests/reference/merge-conflicts) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Same line, changed on both sides, cannot <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Edit on one side and delete on the other cannot either <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The merge button turns off until a person chooses the text <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### The GitHub Conflict Editor <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### The GitHub Conflict Editor <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* **Resolve conflicts** edits a simple line conflict on the pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Resolving a merge conflict on GitHub](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Commit merge** merges the entire base branch into the head branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You still merge the pull request afterward <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Leave **Fix with Copilot** if it appears <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### The GitHub Conflict Editor <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* On `main`, commit `Conflict practice: original sentence.` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Create `left-side` and `right-side` from that commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `left-side`: change the sentence to `left side`, merge into `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `right-side`: change the original sentence to `right side` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The pull request into `main` has the merge button off <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Reading Conflict Markers <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Reading Conflict Markers <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* `<<<<<<<` and `>>>>>>>` name the two branches <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `=======` splits their sentences <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Pro Git: Basic merge conflicts](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#_basic_merge_conflicts) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Markers are not file content <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Reading Conflict Markers <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Delete the markers and both competing sentences <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Leave `Conflict practice: both sides, kept on purpose.` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Mark as resolved**, then **Commit merge** on `right-side` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Create a merge commit** into `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The older commits stay on the Commits page <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Preventing Conflicts with Smaller Pull Requests <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Preventing Conflicts with Smaller Pull Requests <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Fewer lines overlap less; appending can still collide <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A branch that sits while `main` moves overlaps more <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Update branch** merges base into head when there is no conflict yet <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Keeping your pull request in sync with the base branch](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/keeping-your-pull-request-in-sync-with-the-base-branch) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Update with rebase** rewrites commits; leave it for Appendix A <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Reverting a Commit or a Pull Request on GitHub <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Reverting a Commit or a Pull Request on GitHub <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A revert is a new commit that undoes an older change <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Object: [git-revert](https://git-scm.com/docs/git-revert) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Revert** on the merged pull request opens another pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* It undoes that pull request's effect, not the whole file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Reverting a Commit or a Pull Request on GitHub <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Merge the revert with **Create a merge commit** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `main` shows `Conflict practice: left side.` again <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The right-side commits and the resolution are still in history <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `main` moved forward; it did not rewind to an old SHA <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### What You Cannot Undo in the Web UI <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### What You Cannot Undo in the Web UI <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Revert and delete-on-the-tip leave the old snapshot <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No reset and no reflog (Appendix B) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No force-push and no amend (Appendix A) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No "unresolve" for **Commit merge** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Resolve conflicts** stays off when [GitHub](https://github.com/) will not show the file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Closing a pull request does not undo a merge that already landed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Conflicts and History Repair in the Browser <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Summary: Conflicts and History Repair in the Browser <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Same line, two branches: merge button off <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Markers name the branches; you delete them and keep one sentence <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Commit merge** brings `main` into the head branch, then you merge the pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Update branch** is only for behind-without-conflict <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Revert** put `left side` back and left the old commits in history <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The web UI adds commits; it does not erase them <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next: Releases, Ignore Files, and Repository Hygiene <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>

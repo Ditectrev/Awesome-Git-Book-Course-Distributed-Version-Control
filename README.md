@@ -1594,3 +1594,127 @@ Sync is not a pull from your laptop. It is the host copy of your fork learning c
 ### Summary: Pull Requests, Forks, and Code Review
 
 We treated the pull request as the review, not only as a merge button. A pull request is a [GitHub](https://github.com/) proposal to merge a compare branch into a base branch; the commits are still [Git](https://git-scm.com/) ([Pull requests](https://docs.github.com/en/pull-requests/reference/pull-requests)). You opened `review-line` as a draft ([Creating a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request), [Changing the stage of a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/changing-the-stage-of-a-pull-request)), marked it ready, commented on the diff, and committed a suggestion onto the head branch ([Incorporating feedback in your pull request](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/incorporating-feedback-in-your-pull-request)). You cannot approve your own pull request. The Checks tab was empty because no [GitHub Actions](https://docs.github.com/en/actions) workflow is configured ([Status checks](https://docs.github.com/en/pull-requests/reference/status-checks)). Merging updated `main`. Closing `close-me` did not ([Closing a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/closing-a-pull-request)). A fork is another [GitHub](https://github.com/) repository linked to upstream; a clone is a copy on a machine; a branch is neither ([Forks](https://docs.github.com/en/pull-requests/reference/forks)). You forked [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife), read **compare across forks**, and did not create the upstream pull request. **Sync fork** on the default branch is how that fork learns new upstream commits ([Syncing a fork](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/syncing-a-fork)). Next, we will walk through Conflicts and History Repair in the Browser.
+
+## Conflicts and History Repair in the Browser
+
+[Git](https://git-scm.com/) merges two branches on its own when their edits do not compete. A conflict is [Git](https://git-scm.com/) stopping because two commits changed the same line, or one commit edited a file the other deleted, and it will not guess. [GitHub](https://github.com/) then turns the merge button off until you pick the text that should land. Repair, on this path, is a new commit. The old snapshots stay.
+
+You still do not install [Git](https://git-scm.com/). The repository is still `hello-git`.
+
+**What you do:** edit one sentence on two branches, resolve the conflict in the [GitHub](https://github.com/) editor, merge, then revert that pull request. The revert is another pull request. `main` moves forward both times. Nothing is erased.
+
+Canonical pages: [Merge conflicts](https://docs.github.com/en/pull-requests/reference/merge-conflicts), [Resolving a merge conflict on GitHub](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github), [Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request), [Pro Git: Basic merge conflicts](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#_basic_merge_conflicts).
+
+### Why Conflicts Happen
+
+[Git](https://git-scm.com/) compares the two tips with their common ancestor. If each side changed different lines, or different files, it can build the result and merge. Docs: [Merge conflicts](https://docs.github.com/en/pull-requests/reference/merge-conflicts). That is why earlier chapters told you to add each practice line at the end of `README.md`. Those commits did not compete, so the merge button stayed on.
+
+A conflict is the other case:
+
+- Both sides changed the **same line** since that ancestor.
+- One side edited a file and the other **deleted** it.
+
+[GitHub](https://github.com/) will not merge the pull request until a person chooses the contents. The **Merge pull request** button is off. That is [Git](https://git-scm.com/) refusing to pick a winner, not a broken repository.
+
+The two sides in this chapter are both you. On a shared repository they are often two people. The object model does not care.
+
+**Working rule:** different lines can merge. The same line, changed twice since the shared parent, cannot. You decide the text.
+
+### The [GitHub](https://github.com/) Conflict Editor
+
+Simple line conflicts can be resolved on [GitHub](https://github.com/). Docs: [Resolving a merge conflict on GitHub](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github). **Resolve conflicts** opens an editor on the pull request. **Commit merge** does not only save the line you typed. It merges the **entire base branch into the head branch**. The head branch then contains the base branch's other commits as well as your resolution. You still merge the pull request afterward, which is the opposite direction: head into base.
+
+If the merge box offers **Fix with Copilot**, leave it. This chapter is you reading the markers. [GitHub Copilot](https://github.com/features/copilot) can attempt a resolution when that agent is enabled ([Using Copilot to resolve merge conflicts](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-on-github#resolving-merge-conflicts)). We do not use it here.
+
+**Do this** to build a conflict [GitHub](https://github.com/) can open. Change the one sentence named below. Do not add a second line beside it, or [Git](https://git-scm.com/) may merge without asking.
+
+1. On `main`, add this line at the end of `README.md`: `Conflict practice: original sentence.` Commit directly to `main`. Message: `Add a sentence both branches will edit`. This commit is the shared parent. Both branches must start here, before either of them edits the sentence.
+2. With `main` selected, create `left-side`. Switch the dropdown back to `main` and create `right-side`. Both names point at the commit you just made. Neither has a new snapshot yet.
+3. On `left-side`, replace that sentence with `Conflict practice: left side.` Commit directly to `left-side`. Message: `Change the practice sentence on the left`. Open a pull request into `main`, choose **Create pull request**, and merge with **Create a merge commit**. `main` now ends with the left-side sentence.
+4. On `right-side`, the file still has `Conflict practice: original sentence.` Replace it with `Conflict practice: right side.` Commit directly to `right-side`. Message: `Change the practice sentence on the right`.
+5. Open a pull request. Base: `main`. Compare: `right-side`. The merge button is off. [GitHub](https://github.com/) reports a conflict in `README.md`.
+
+Stop on that pull request. The next section is the text inside **Resolve conflicts**.
+
+**Working rule:** branch both names from the same commit, edit the same line, merge one side, and the other pull request conflicts. **Resolve conflicts** is only for that line-against-line case.
+
+### Reading Conflict Markers
+
+Click **Resolve conflicts**. [GitHub](https://github.com/) shows `README.md` with markers around the sentence. The same markers are what a local [Git](https://git-scm.com/) merge writes ([Resolving a merge conflict using the command line](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-using-the-command-line), [Pro Git: Basic merge conflicts](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging#_basic_merge_conflicts)):
+
+```text
+<<<<<<< right-side
+Conflict practice: right side.
+=======
+Conflict practice: left side.
+>>>>>>> main
+```
+
+The branch names on the `<<<<<<<` and `>>>>>>>` lines are the two tips. One side is the head branch (`right-side`). The other is the base (`main`), which already contains the left-side edit. `=======` splits them. Everything else in the file is text both sides could agree on, so it is not inside markers.
+
+The markers are not content. A file that still contains `<<<<<<<` is not resolved.
+
+**Do this:**
+
+1. Delete the three marker lines and both competing sentences.
+2. Leave one line in their place: `Conflict practice: both sides, kept on purpose.`
+3. If another conflict appears lower in the file, you edited more than that sentence. Resolve it the same way: no markers left behind.
+4. Click **Mark as resolved**.
+5. Click **Commit merge**. If [GitHub](https://github.com/) asks which branch to update, continue updating `right-side`. It is not a protected branch. That commit merges all of `main` into `right-side`, with your sentence as the resolved line.
+6. Back on the pull request, **Create a merge commit** into `main`.
+
+`main` now ends with `Conflict practice: both sides, kept on purpose.` The conflict did not delete `Change the practice sentence on the right` or the left-side merge. Those commits are still on the Commits page. The resolution is a new commit on top.
+
+If **Resolve conflicts** is disabled, [GitHub](https://github.com/) cannot edit this conflict in the browser. A delete-versus-edit, or a file it will not show, is that case. The command-line page above is the other tool. We do not open it. A one-line text conflict in `README.md` should enable the button.
+
+**Working rule:** markers name the two branches. Delete the markers. The text you leave is the snapshot **Commit merge** records. Then merge the pull request.
+
+### Preventing Conflicts with Smaller Pull Requests
+
+You will not prevent every conflict. You can make them rare and small.
+
+- **Edit less.** A pull request that changes three lines overlaps less than one that rewrites a file. Two people can append to a README and still conflict if they append at the same spot. "Add at the end" only helps when the other side did not touch those lines.
+- **Finish sooner.** A branch that sits for a week while `main` moves will overlap more. Open the pull request when the change is reviewable, as in Pull Requests, Forks, and Code Review.
+- **Take `main` in before the lines collide.** When the head branch is merely behind and [GitHub](https://github.com/) sees no conflict, the pull request offers **Update branch**, which merges the base into the head ([Keeping your pull request in sync with the base branch](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/keeping-your-pull-request-in-sync-with-the-base-branch)). That button is absent once a conflict exists. **Update with rebase** rewrites the head branch's commits. Leave it. Rewriting is Appendix A.
+- **Talk about the file.** Two branches that both own the same sentence will conflict no matter how small the pull requests are. Split the work by file or by section when you can.
+
+The conflict you just built was on purpose: one sentence, two edits, no other noise. That is also what a small pull request looks like when a conflict does happen. You can read it.
+
+**Working rule:** smaller, shorter-lived pull requests conflict less often. **Update branch** is for "behind, but [Git](https://git-scm.com/) can still merge." **Resolve conflicts** is for "the same line."
+
+### Reverting a Commit or a Pull Request on [GitHub](https://github.com/)
+
+A **revert** is a new commit that undoes an older change. The older commit stays in the graph. That is the immutable history from Core Principles of Git, applied as a repair. [Git](https://git-scm.com/) documents the object in [git-revert](https://git-scm.com/docs/git-revert). [GitHub](https://github.com/) documents the click for a merged pull request in [Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request).
+
+**Revert** on a merged pull request opens a new pull request. Merging that pull request puts the inverse of the original merge onto `main`. It does not rewind `main` to an old SHA. The Commits page grows.
+
+The inverse is the effect of **that** pull request on the base branch, not the whole life of the file. Your right-side pull request changed `main` from `Conflict practice: left side.` to `Conflict practice: both sides, kept on purpose.` Reverting it puts the left-side sentence back. The left-side pull request is a different merge. It stays until you revert that one too.
+
+A single ordinary commit can be reverted the same way: a new snapshot whose diff is the opposite of that commit, usually offered as its own pull request. You need write access. If reverting the whole pull request conflicts, [GitHub](https://github.com/) says to revert the individual commits instead. The command on a machine is `git revert`. We do not run it. The pull request button is enough for the merge you just made.
+
+**Do this:**
+
+1. Open the merged `right-side` pull request. Near the bottom, click **Revert**.
+2. [GitHub](https://github.com/) opens a new pull request. Keep the title it generated. It names the pull request being undone.
+3. Merge it with **Create a merge commit**.
+4. On `main`, the practice sentence is `Conflict practice: left side.` again.
+5. On the Commits page, the revert is the newest commit. Open it. It has one parent (or two, if the revert itself was a merge commit). The right-side commits and the conflict resolution are still listed further down. They were not deleted.
+
+**Working rule:** revert adds a commit that undoes one change on the base branch. The commit you dislike remains reachable. History got longer.
+
+### What You Cannot Undo in the Web UI
+
+The browser can add commits. It cannot pretend a published commit never existed.
+
+- **No erase.** Revert, a follow-up edit, and deleting a file on the tip all leave the old snapshot in history. You already saw a deleted `NOTES.md` still sitting in an older tree.
+- **No reset and no reflog.** Those move a branch pointer backward or look up commits you abandoned. Appendix B. [GitHub](https://github.com/) does not offer them on the pull request.
+- **No force-push and no amend.** Those replace history. Appendix A. The web editor has no force-push button. **Update with rebase** on a pull request is that family. You did not click it.
+- **No undo of Commit merge.** The resolution commit is on `right-side`. If the sentence is wrong, fix it with another commit or revert the pull request. There is no "unresolve" button.
+- **No editor for every conflict.** **Resolve conflicts** stays off when [GitHub](https://github.com/) will not show the file. The command-line article is the documented other path ([Resolving a merge conflict using the command line](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-using-the-command-line)). This chapter does not take it.
+- **Closing is not reverting.** Close, from the previous chapter, leaves `main` as it was. It does not undo a merge that already happened.
+
+**Working rule:** the web UI repairs history by adding a commit. Erasing, resetting, and rewriting are outside this chapter, and outside the buttons on `hello-git`.
+
+### Summary: Conflicts and History Repair in the Browser
+
+We made [Git](https://git-scm.com/) stop. Two branches edited `Conflict practice: original sentence.` after the same parent, so the second pull request could not merge ([Merge conflicts](https://docs.github.com/en/pull-requests/reference/merge-conflicts)). **Resolve conflicts** showed `<<<<<<<`, `=======`, and `>>>>>>>` with the branch names on them ([Resolving a merge conflict on GitHub](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github)). You deleted the markers, kept one new sentence, and **Commit merge** brought all of `main` into `right-side` before you merged the pull request. Smaller pull requests and **Update branch** (only when there is no conflict yet) are how you avoid that editor ([Keeping your pull request in sync with the base branch](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/keeping-your-pull-request-in-sync-with-the-base-branch)). **Revert** on the merged pull request added a commit that put `Conflict practice: left side.` back on `main` ([Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request), [git-revert](https://git-scm.com/docs/git-revert)). The older commits are still on the Commits page. The web UI does not reset, force-push, or erase them. Next, we will walk through Releases, Ignore Files, and Repository Hygiene.
