@@ -1422,3 +1422,175 @@ The graph can lag a minute behind a merge. Reload if the new dot is missing. The
 ### Summary: Branches and Merging
 
 We gave `hello-git` more than one name. A branch is a pointer to a commit ([Pro Git: Branches in a Nutshell](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell)); creating one does not copy the repository. The default branch is the name [GitHub](https://github.com/) opens and the usual base of a pull request — `main` on this repository ([About branches](https://docs.github.com/en/pull-requests/reference/branches)). You created `scratch` and deleted it, then committed on `status-line` and watched `main` stay still ([Managing branches within your repository](https://docs.github.com/en/pull-requests/how-tos/commit-changes/managing-branches-within-your-repository)). [Learn Git Branching](https://learngitbranching.js.org/) supplied the picture: **Branching in Git** and **Merging in Git**, and not **Rebase Introduction**. Merging happened on a pull request ([Merging a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request)). **Create a merge commit** uses `--no-ff`, so you got two parents even though a fast-forward was possible ([About merge methods on GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github)). **Squash and merge** put one new SHA on `main`. **Rebase and merge** kept the subject and wrote a new SHA, with one parent and no merge commit. The [Network graph](https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/understanding-connections-between-repositories) shows the two-parent join as two lines and the other two joins as one line. Next, we will walk through Pull Requests, Forks, and Code Review.
+
+## Pull Requests, Forks, and Code Review
+
+Branches and Merging used a pull request as the door to the merge buttons. This chapter is the pull request itself: a proposal to merge one branch into another, with a place for comments, a draft stage, and a merge box that can wait on checks. When the repository is not yours, the same proposal starts from a fork.
+
+You still do not install [Git](https://git-scm.com/). The practice repository is still `hello-git`.
+
+**What you do:** open one pull request on `hello-git`, comment on the diff, apply a suggestion, and merge it. Open a second and close it without merging. Then fork [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife), read the cross-fork form, and sync the fork. You do not send that exercise to the upstream repository.
+
+Canonical pages: [Pull requests](https://docs.github.com/en/pull-requests/reference/pull-requests), [Creating a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request), [Pull request reviews](https://docs.github.com/en/pull-requests/reference/pull-request-reviews), [Forks](https://docs.github.com/en/pull-requests/reference/forks).
+
+### What a Pull Request Is
+
+A **pull request** is a [GitHub](https://github.com/) proposal to merge one branch into another. [GitHub](https://github.com/) calls it the collaboration feature for discussing a change before it lands ([Pull requests](https://docs.github.com/en/pull-requests/reference/pull-requests)). It is not a [Git](https://git-scm.com/) object. The commits on the branch are the [Git](https://git-scm.com/) objects. The pull request points at two branch names:
+
+- **Base** (or base branch): where you want the result to land. On `hello-git` that is `main`.
+- **Compare** (or head): the branch that holds the new commits.
+
+[GitHub](https://github.com/) lays that proposal out in tabs ([Pull requests](https://docs.github.com/en/pull-requests/reference/pull-requests)):
+
+- **Conversation** — the description, the timeline, comments, and reviews.
+- **Commits** — the snapshots on the head branch.
+- **Checks** — automated results. `hello-git` has none yet.
+- **Files changed** — the diff a reviewer reads. The same computed diff as a commit page, for every commit in the proposal.
+- **Findings** — automated code-review results such as code scanning. Empty on this practice repository. Leave it empty.
+
+The **merge box** at the bottom is where the three buttons from Branches and Merging live, and where [GitHub](https://github.com/) reports blockers (a draft, a failing check, a missing review).
+
+**Working rule:** a pull request is a review of commits, not a new kind of snapshot. Base is the destination. Compare is the work.
+
+### Opening a Pull Request from a Branch
+
+A pull request inside one repository needs two different branch names ([Creating a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request)). You already opened three of these to reach the merge buttons. This time the pull request stays open long enough to review.
+
+**Do this:**
+
+1. On `hello-git`, select `main`. Create `review-line`.
+2. Edit `README.md` and add a line at the end: `Review practice: a line for comments.`
+3. Commit directly to `review-line`. Message: `Add a line for review`.
+4. Use **Compare & pull request**, or **Pull requests** → **New pull request**. Base: `main`. Compare: `review-line`.
+5. Title: `Add a line for review`. Description: one sentence on why the line exists. A description can also name an issue (`Fixes #1` closes that issue when the pull request merges). You have no issue. Skip the keyword.
+6. Open the create-button dropdown and choose **Create draft pull request**. The next section is why.
+
+Leave reviewers empty. The form is the same one Branches and Merging used. The draft choice is the new part.
+
+**Working rule:** base `main`, compare your branch, imperative title, draft until you mean to ask for review.
+
+### Reviewers, Comments, and Suggested Changes
+
+A review is a person responding to the diff. Docs: [Pull request reviews](https://docs.github.com/en/pull-requests/reference/pull-request-reviews), [Commenting on a pull request](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/commenting-on-a-pull-request), [Reviewing proposed changes in a pull request](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request).
+
+**Reviewers.** Requesting a review takes write access. The person you request needs read access, and [GitHub](https://github.com/) notifies them. On `hello-git` you are the only account. The reviewer box stays empty. You also cannot approve your own pull request ([Reviewing proposed changes in a pull request](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/reviewing-proposed-changes-in-a-pull-request)). Adding a collaborator is Collaboration, Access, and Other Git Hosts. Do not create a second account for this chapter.
+
+A submitted review is one of three choices:
+
+- **Comment** — feedback without an approve or a block.
+- **Approve** — the reviewer says the change can merge.
+- **Request changes** — the reviewer wants another commit before merge.
+
+**Comments.** The **Conversation** tab takes a general note. **Files changed** takes a note on a line or a file. Line comments are where implementation questions belong.
+
+**Suggested changes.** In a line comment, the suggestion control inserts a block [GitHub](https://github.com/) can apply as a commit on the head branch. The author (anyone with write access) clicks **Commit suggestion**, or batches several with **Add suggestion to batch** and then **Commit suggestions**. Docs: [Incorporating feedback in your pull request](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/incorporating-feedback-in-your-pull-request). That commit is an ordinary [Git](https://git-scm.com/) snapshot. The pull request updates because the head branch moved.
+
+**Do this** after the pull request is ready for review (next section). If you are still on the draft, mark it ready first.
+
+1. Open **Files changed**. Comment on the new README line: `Leaving a note on this line.`
+2. Start another line comment on that same line. Use the suggestion control so the suggested line is `Review practice: a line for comments and a suggestion.`
+3. Submit the comment. Click **Commit suggestion**. Message: `Apply the review suggestion`.
+4. Open **Commits**. The head branch now has `Add a line for review` and `Apply the review suggestion`.
+5. Open **Review changes** if you want the summary box. **Comment** is the choice you can submit on your own pull request. **Approve** will not count: it is your pull request.
+
+**Working rule:** comments sit on the pull request. A suggestion, once committed, is a new snapshot on the head branch. You cannot approve yourself.
+
+### Draft Pull Requests
+
+A **draft** is a pull request you do not want merged yet. Docs: [Changing the stage of a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/changing-the-stage-of-a-pull-request), and the draft section of [Pull requests](https://docs.github.com/en/pull-requests/reference/pull-requests).
+
+The merge box refuses a draft. **Ready for review** lifts that. You can turn an open pull request back into a draft later; people already notified stay notified. Marking ready can also request review from code owners. `hello-git` has no [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file. Nothing extra is requested. CODEOWNERS as a required review is Collaboration, Access, and Other Git Hosts.
+
+**Do this:** open the draft you just created. In the merge box, click **Ready for review**. Then do the comments in the previous section. The merge button stays unused until Merging and Closing Pull Requests.
+
+**Working rule:** draft means "not a merge candidate." Ready for review means the diff is fair game for comments and, later, the merge button.
+
+### Checks, Statuses, and Required Reviews
+
+The **Checks** tab and the merge box report automation. Docs: [Status checks](https://docs.github.com/en/pull-requests/reference/status-checks).
+
+[GitHub](https://github.com/) has two kinds:
+
+- **Checks** — detailed results from [GitHub Apps](https://docs.github.com/en/apps), including [GitHub Actions](https://docs.github.com/en/actions).
+- **Commit statuses** — a simpler pass or fail posted by an outside service.
+
+`hello-git` has no workflow and no outside service. The tab is empty. That is success for this chapter. An empty tab does not mean the README was tested. It means nobody configured a test. Wiring [GitHub Actions](https://docs.github.com/en/actions) as a merge gate is Appendix F. Do not add a workflow now.
+
+If a branch protection rule or a ruleset marks a check or a review as required, the merge box waits until that requirement passes ([About protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)). A skipped [GitHub Actions](https://docs.github.com/en/actions) job reports success and does not block. `hello-git` has no such rule. Do not add one. The merge box on your pull request should offer the same three buttons as the last chapter, once the pull request is ready for review.
+
+**Working rule:** checks are programs the repository owner attached. No check configured means no signal, not a passing grade. Required reviews are a branch rule, not a property of [Git](https://git-scm.com/).
+
+### Merging and Closing Pull Requests
+
+Merging lands the head branch on the base using one of the three methods from Branches and Merging. Docs: [Merging a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request). Closing records that you will not merge it. Docs: [Closing a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/closing-a-pull-request).
+
+**Do this (merge):**
+
+1. On `Add a line for review`, with the pull request ready for review, choose **Create a merge commit** and confirm.
+2. Accept the default merge message. Delete `review-line` when [GitHub](https://github.com/) offers it.
+3. On `main`, the README contains the suggested line. The merge commit has two parents, as in the last chapter.
+
+You do not need to press **Squash and merge** or **Rebase and merge** again.
+
+**Do this (close without merging):**
+
+1. From `main`, create `close-me`. Add a line at the end of `README.md`: `Close practice: this line should not land.` Commit directly to `close-me`. Message: `Add a line we will not merge`.
+2. Open a pull request. Title: `Add a line we will not merge`. This time choose **Create pull request**, not a draft.
+3. At the bottom, below the comment box, click **Close pull request**. Leave the branch in place for a moment.
+4. Switch the **Code** tab to `main`. The close-practice line is absent. Switch to `close-me`. The line is still on that branch. Closing did not move `main` and did not delete the commits.
+5. Delete `close-me` from **View all branches** when you are done looking. A closed pull request can be reopened from its page if the branch still exists. Reopen is optional.
+
+**Working rule:** merge updates the base branch. Close leaves the base branch alone. Deleting the head branch is a separate click either way.
+
+### Fork vs Clone as a Mental Model
+
+Three copies get confused. Only one of them is this chapter's lab.
+
+**A branch** is a name inside one repository. `review-line` and `main` were two names in `hello-git`.
+
+**A fork** is a separate repository on [GitHub](https://github.com/). It starts as a copy of another repository, the **upstream**, and stays linked to it. Docs: [Forks](https://docs.github.com/en/pull-requests/reference/forks). Under the fork's name, [GitHub](https://github.com/) shows which upstream it came from. The fork has its own settings, issues, pull requests, and actions. A branch cannot. You can fork any public repository to your personal account. The fork copies history, which is why you can open a pull request back to upstream. A repository created from a template does not: that was one new root commit, in Repositories, Files, and Commits.
+
+**A clone** is a copy of a [Git](https://git-scm.com/) repository on a machine: your laptop, or a cloud machine such as [GitHub Codespaces](https://github.com/features/codespaces). Docs: [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository). Cloning is how Git on Your Own Machine starts. This book still does not ask you to clone. A fork is not a clone. A fork lives on [GitHub](https://github.com/). A clone lives where [Git](https://git-scm.com/) is installed.
+
+**Working rule:** branch = a name in one repo. Fork = another repo on [GitHub](https://github.com/), linked upstream. Clone = a repo on a machine. We fork. We do not clone.
+
+### Contributing to Someone Else's Repository
+
+You cannot push a branch to a repository you do not have write access to. You fork it, commit on the fork, and open a pull request whose base is upstream and whose compare branch is on your fork. Docs: [Fork a repository](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo), [Creating a pull request from a fork](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request-from-a-fork).
+
+[GitHub](https://github.com/)'s own walkthrough uses [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife). Use that. Do not open a practice pull request against this book. A real correction still uses these steps, with upstream [Ditectrev/Awesome-Git-Book-Course-Distributed-Version-Control](https://github.com/Ditectrev/Awesome-Git-Book-Course-Distributed-Version-Control). Practice lines do not belong there.
+
+The pencil on a file in someone else's repository is the same path, started for you. [Editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) forks the repository and leads to **Propose changes**. We will fork first so the two repositories are visible.
+
+**Do this:**
+
+1. Open [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife). Click **Fork**.
+2. Owner: your personal account. Select **Copy the default branch only**. [GitHub](https://github.com/) recommends that for a contribution. Click **Create fork**.
+3. On your fork, the page names the upstream under the repository name. Create `practice-fork` from the default branch. Change one file by a single obvious line. Commit directly to `practice-fork`. Message: `Practice a fork commit`.
+4. Start **Compare & pull request**. On the form, click **compare across forks**. Set the base repository to `octocat/Spoon-Knife` and the base branch to its default branch. Set the head repository to your fork and the compare branch to `practice-fork`.
+5. Read the title [GitHub](https://github.com/) filled in. Stop. Do not click **Create pull request**. The form is the whole lesson. An open pull request would propose your exercise line to a project you do not maintain.
+
+Your commit remains on your fork. Upstream does not have it.
+
+**Working rule:** no write access, no branch on their repository. Fork, commit, compare across forks. Create the pull request only when the change is one you mean them to merge.
+
+### Syncing a Fork in the [GitHub](https://github.com/) Interface
+
+Upstream will gain commits you do not have. **Sync fork** copies those commits onto a branch of your fork. Docs: [Syncing a fork](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/syncing-a-fork).
+
+**Do this:**
+
+1. Open your fork of [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife). Select the default branch, not `practice-fork`.
+2. Above the file list, open **Sync fork**.
+3. If [GitHub](https://github.com/) says the branch is up to date, stop. That is a finished sync: you forked recently, and you did not commit on this branch.
+4. If it lists upstream commits, read them and click **Update branch**. Those commits land on your default branch. Your `practice-fork` branch is untouched until you merge or rebase it yourself.
+
+When upstream commits and your branch edited the same lines, [GitHub](https://github.com/) asks for a pull request to resolve conflicts. That editor is Conflicts and History Repair in the Browser. Do not hunt for a conflict on Spoon-Knife. The up-to-date message is the result we want.
+
+Sync is not a pull from your laptop. It is the host copy of your fork learning commits that already exist on upstream. Core Principles of Git called that fetch. The button is the browser form of it.
+
+**Working rule:** sync the fork's default branch from upstream. Up to date is a successful result. Conflict resolution waits for the next chapter.
+
+### Summary: Pull Requests, Forks, and Code Review
+
+We treated the pull request as the review, not only as a merge button. A pull request is a [GitHub](https://github.com/) proposal to merge a compare branch into a base branch; the commits are still [Git](https://git-scm.com/) ([Pull requests](https://docs.github.com/en/pull-requests/reference/pull-requests)). You opened `review-line` as a draft ([Creating a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request), [Changing the stage of a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/changing-the-stage-of-a-pull-request)), marked it ready, commented on the diff, and committed a suggestion onto the head branch ([Incorporating feedback in your pull request](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/incorporating-feedback-in-your-pull-request)). You cannot approve your own pull request. The Checks tab was empty because no [GitHub Actions](https://docs.github.com/en/actions) workflow is configured ([Status checks](https://docs.github.com/en/pull-requests/reference/status-checks)). Merging updated `main`. Closing `close-me` did not ([Closing a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/closing-a-pull-request)). A fork is another [GitHub](https://github.com/) repository linked to upstream; a clone is a copy on a machine; a branch is neither ([Forks](https://docs.github.com/en/pull-requests/reference/forks)). You forked [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife), read **compare across forks**, and did not create the upstream pull request. **Sync fork** on the default branch is how that fork learns new upstream commits ([Syncing a fork](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/syncing-a-fork)). Next, we will walk through Conflicts and History Repair in the Browser.

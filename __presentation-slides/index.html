@@ -1742,6 +1742,221 @@
 * Squash: one new SHA. Rebase: same subject, new SHA, one parent <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Network graph: two lines versus one line <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Next: Pull Requests, Forks, and Code Review <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Pull Requests, Forks, and Code Review <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+## Pull Requests, Forks, and Code Review <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* The pull request is the review, not only the merge button <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Still `hello-git` in the browser; no local [Git](https://git-scm.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Comment, suggest, merge one; close another without merging <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Fork [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife), read the form, do not send the exercise upstream <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### What a Pull Request Is <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### What a Pull Request Is <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A [GitHub](https://github.com/) proposal to merge one branch into another <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Pull requests](https://docs.github.com/en/pull-requests/reference/pull-requests) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Not a [Git](https://git-scm.com/) object; the commits are <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Base** is the destination (`main`) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Compare** (head) is the branch with the new commits <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### What a Pull Request Is <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* **Conversation** — description, timeline, comments <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Commits** — snapshots on the head branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Checks** — automation; empty on `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Files changed** — the diff reviewers read <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The merge box holds the three buttons and any blockers <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Opening a Pull Request from a Branch <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Opening a Pull Request from a Branch <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Two different branches in one repository <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Creating a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* From `main`, branch `review-line` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Add a README line; commit `Add a line for review` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Base `main`, compare `review-line` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Opening a Pull Request from a Branch <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Title: `Add a line for review` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `Fixes #1` would close an issue on merge; skip it, you have no issue <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Dropdown: **Create draft pull request** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Leave the reviewer box empty <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Reviewers, Comments, and Suggested Changes <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Reviewers, Comments, and Suggested Changes <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* **Comment**, **Approve**, or **Request changes** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Pull request reviews](https://docs.github.com/en/pull-requests/reference/pull-request-reviews) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You cannot approve your own pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A solo `hello-git` has nobody to request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Collaborators come in a later chapter <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Reviewers, Comments, and Suggested Changes <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* **Files changed**: comment on the new line <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Suggestion control proposes a replacement line <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Commit suggestion** writes a new snapshot on the head branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Incorporating feedback in your pull request](https://docs.github.com/en/pull-requests/how-tos/review-pull-requests/incorporating-feedback-in-your-pull-request) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Commits** then lists both the original commit and the suggestion <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Draft Pull Requests <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Draft Pull Requests <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A draft is not a merge candidate <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Changing the stage of a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/changing-the-stage-of-a-pull-request) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The merge box refuses it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Ready for review** lifts that <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You can turn an open pull request back into a draft <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No CODEOWNERS file on `hello-git`, so ready-for-review requests nobody <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Checks, Statuses, and Required Reviews <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Checks, Statuses, and Required Reviews <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* **Checks** come from [GitHub Apps](https://docs.github.com/en/apps), including [GitHub Actions](https://docs.github.com/en/actions) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Commit statuses** are a simpler pass or fail from outside <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Status checks](https://docs.github.com/en/pull-requests/reference/status-checks) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `hello-git` has neither; an empty tab is not a passing test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not add a workflow; that gate is Appendix F <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Checks, Statuses, and Required Reviews <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* A required check or review makes the merge box wait <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [About protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `hello-git` has no such rule; do not add one <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Once the pull request is ready, the three merge buttons are back <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Merging and Closing Pull Requests <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Merging and Closing Pull Requests <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Merge `Add a line for review` with **Create a merge commit** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Merging a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `main` gains the suggested line and a two-parent merge commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Squash and rebase were the previous chapter <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Merging and Closing Pull Requests <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Branch `close-me`; commit a line you do not want on `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Close pull request** ([Closing a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/closing-a-pull-request)) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `main` does not move; the branch still has the commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Delete `close-me` when you have seen that <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A closed pull request can be reopened while the branch exists <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Fork vs Clone as a Mental Model <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Fork vs Clone as a Mental Model <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Branch: a name inside one repository <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Fork: a separate [GitHub](https://github.com/) repository linked to **upstream** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Forks](https://docs.github.com/en/pull-requests/reference/forks) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A fork copies history; a template repository does not <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Clone: a copy on a machine ([Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* We fork. We do not clone <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Contributing to Someone Else's Repository <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Contributing to Someone Else's Repository <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* No write access means no branch on their repository <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Fork [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife) to your account <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Copy the default branch only**, then **Create fork** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Fork a repository](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit on `practice-fork` in your fork <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Contributing to Someone Else's Repository <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* **compare across forks** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Base: `octocat/Spoon-Knife`. Head: your fork, `practice-fork` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Creating a pull request from a fork](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request-from-a-fork) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Stop before **Create pull request** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A real book correction uses the same form, with this book's repository as upstream <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Syncing a Fork in the GitHub Interface <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Syncing a Fork in the GitHub Interface <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* On the fork's default branch, open **Sync fork** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Docs: [Syncing a fork](https://docs.github.com/en/pull-requests/how-tos/work-with-forks/syncing-a-fork) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Up to date is a finished sync <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* **Update branch** copies upstream commits onto that branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A conflict asks for a pull request; that editor is the next chapter <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Sync is the host learning upstream commits, not a laptop pull <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Pull Requests, Forks, and Code Review <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+---
+
+### Summary: Pull Requests, Forks, and Code Review <!-- .slide: data-transition="zoom" data-transition-speed="slow" -->
+
+* Pull request: base and compare; commits stay [Git](https://git-scm.com/) <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Draft, then ready; line comment plus **Commit suggestion** <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You cannot approve your own pull request; Checks was empty <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Merge updates `main`; close leaves `main` alone <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Fork is another [GitHub](https://github.com/) repo; clone is a machine; we only forked <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Compared across forks and synced; did not open the upstream pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next: Conflicts and History Repair in the Browser <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
