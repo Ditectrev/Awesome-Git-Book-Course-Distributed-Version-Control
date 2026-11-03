@@ -1850,3 +1850,126 @@ Do not reuse `v0.1.0` for a later commit. Readers of the zip, and anyone who che
 ### Summary: Releases, Ignore Files, and Repository Hygiene
 
 We kept junk and secrets out of future commits, then named a snapshot. A committed `.gitignore` lists untracked paths [Git](https://git-scm.com/) should skip ([gitignore](https://git-scm.com/docs/gitignore), [Ignoring files](https://docs.github.com/en/get-started/git-basics/ignoring-files)). It does not remove a blob already in history. You wrote `.DS_Store`, `.env`, and `*.log` yourself. The template menu is [github/gitignore](https://github.com/github/gitignore), and you left it unset. Secrets — tokens, keys, real `.env` files — do not go in any repository. Public repositories get [secret scanning](https://docs.github.com/en/code-security/concepts/secret-security/secret-scanning) and, for your user, [push protection](https://docs.github.com/en/code-security/concepts/secret-security/push-protection) against known patterns. A leaked secret is revoked first. Erasing it from history is a rewrite, not a web-editor delete ([Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)). A tag is a [Git](https://git-scm.com/) name for one commit ([Pro Git: Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)). A release is the [GitHub](https://github.com/) page on that tag ([About releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)). You published `v0.1.0` from `main` ([Managing releases in a repository](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)). [Semantic Versioning](https://semver.org/) reads that as major 0, minor 1, patch 0, with `v` only on the tag. Next, we will walk through Collaboration, Access, and Other Git Hosts.
+
+## Collaboration, Access, and Other Git Hosts
+
+`hello-git` already has history, a `.gitignore`, and release `v0.1.0`. This chapter is who else may touch that history, which host rules can block a merge, and which nearby screens are not [Git](https://git-scm.com/) objects.
+
+You still do not install [Git](https://git-scm.com/). You still do not create an organization. You still do not open an account on another host. The other-host section is the tour promised earlier. Additional Resources and Reading Materials has the longer pointer list.
+
+**What you do:** open the collaborator page and leave it empty unless a classmate is waiting on an invite. When your plan allows it, save one branch ruleset aimed at the default branch with enforcement **Disabled**. Commit a `CODEOWNERS` file that names you, and do not turn on required code-owner review. Open one issue, attach it to a project if [GitHub](https://github.com/) lets you create one, close the issue, and post one discussion.
+
+Canonical pages: [Inviting collaborators to a personal repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository), [About rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets), [About code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners), [About issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues), [About Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects), [About discussions](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions).
+
+### Collaborators, Teams, and Permissions
+
+A collaborator is a [GitHub](https://github.com/) account you invite onto a repository you own. The invite is access control on the host. It is not a [Git](https://git-scm.com/) commit. Docs: [Permission levels for a personal account repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository), [Inviting collaborators to a personal repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository).
+
+On a **personal** repository there are two levels:
+
+- **Owner** — you. Full control, including invitations, rules, and visibility.
+- **Collaborator** — someone you invite. They can read the repository and push changes. On a **private** personal repository that write access is the only grant. [GitHub](https://github.com/) does not offer a read-only collaborator there.
+
+[GitHub Free](https://docs.github.com/en/get-started/learning-about-github/githubs-plans) allows unlimited collaborators on public and private personal repositories. [GitHub](https://github.com/) also caps how many people you can invite to one repository in 24 hours. One invitation is the whole exercise if you send one.
+
+**Teams** exist on an organization, not on `hello-git`. A team is a named group of organization members. Owners and team maintainers can give that group admin, read, or write on organization repositories, and nested teams inherit access down the tree ([About organization teams](https://docs.github.com/en/organizations/organizing-members-into-teams/about-teams)). Organization repositories use a finer role scale — Read, Triage, Write, Maintain, and Admin — plus custom roles on larger plans ([Repository roles for an organization](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization)). You sign in as yourself either way. Do not create an organization to see a team.
+
+**Do this:**
+
+1. Open `hello-git` → **Settings**. You see Settings because you are the owner.
+2. In the **Access** section, open **Collaborators**.
+3. Read the page. Leave the search box empty unless a classmate has given you their [GitHub](https://github.com/) username and is expecting the invite.
+4. If you do invite that person, send one invitation and stop. They receive an email and have no access until they accept. A pending invitation can be cancelled on this same page. Do not invite a stranger, a bot, or a second account you created for the screenshot.
+
+Removing a collaborator drops their access. If the repository is private and they had forked it, [GitHub](https://github.com/) deletes that fork. A copy they already cloned to a laptop stays on the laptop. That is another reason a private repository is not a lockbox for secrets.
+
+**Working rule:** owner and collaborator are the personal-repository roles. Teams and the five organization roles belong to an organization you are not creating. No invite is a complete result when you are practicing alone.
+
+### Branch Protection and Rulesets
+
+A branch protection rule and a ruleset are [GitHub](https://github.com/) settings about who may update a branch. They are not [Git](https://git-scm.com/) objects. Docs: [About protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches), [About rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets), [Creating rulesets for a repository](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/creating-rulesets-for-a-repository), [Available rules for rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets).
+
+A **branch protection rule** targets one branch-name pattern and is on or off with the rule. A **ruleset** can target the default branch, name patterns, and tags. Matching rulesets layer: there is no single priority number. Anyone who can read the repository can view active rulesets. Admin access is what lets you edit them.
+
+Both features are available for **public** repositories on [GitHub Free](https://docs.github.com/en/get-started/learning-about-github/githubs-plans), and for public and private repositories on [GitHub Pro](https://docs.github.com/en/get-started/learning-about-github/githubs-plans), [GitHub Team](https://docs.github.com/en/get-started/learning-about-github/githubs-plans), and [GitHub Enterprise Cloud](https://docs.github.com/en/get-started/learning-about-github/githubs-plans). A private `hello-git` on Free will not offer them. Do not switch visibility and do not start a trial to unlock the button. Read this section and continue at CODEOWNERS. The file commit below does not need a ruleset.
+
+Enforcement on a ruleset is **Active** (the rules apply as soon as you save) or **Disabled** (the ruleset is stored and does not apply). Bypass lists can exempt admins, teams, or apps. We add no bypass. We do not save an Active ruleset. An Active "require a pull request" rule would block the web editor from committing straight to `main`, which the rest of this book still does. Common Challenges and Debugging Tips is where a blocked merge button shows up. Push rulesets, the kind that cover a private fork network, are a [GitHub Team](https://docs.github.com/en/get-started/learning-about-github/githubs-plans) feature. Skip them.
+
+**Do this** when the rules page lets you create a ruleset:
+
+1. **Settings** → **Rules** → **Rulesets** → **New ruleset** → **New branch ruleset**.
+2. Name: `practice-require-pr`.
+3. Set enforcement to **Disabled**. If the control already says Disabled, leave it. If it says Active, or Evaluate, switch it to Disabled before you save.
+4. Target the **default branch** (that is `main` on `hello-git`).
+5. Add the branch rule that requires changes to go through a pull request. Leave required approving reviews off. Leave "require review from code owners" off.
+6. Create the ruleset. Open it again and confirm the status is still Disabled.
+
+Do not also add a classic branch protection rule. One disabled ruleset is the demonstration. Direct commits to `main` still work.
+
+**Working rule:** rulesets are host policy on branch names. Disabled means you can read the policy without living under it. Active on `main` is a decision for a repository you are ready to stop committing to directly.
+
+### CODEOWNERS and Required Reviews
+
+A `CODEOWNERS` file names the people or teams responsible for paths. [GitHub](https://github.com/) reads it when someone opens a pull request. Docs: [About code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
+
+The file can live in the repository root, in `.github/`, or in `docs/`. Put ours in `.github/CODEOWNERS` on `main`. Patterns follow most of the same shape as [gitignore](https://git-scm.com/docs/gitignore). A line is a pattern, then one or more owners written as `@username` or `@org/team`. Owners must have write access. A team named as an owner must be visible and must itself have write access. The file that matters for a review request is the one on the **base** branch of the pull request, not a copy that exists only on the head branch. Draft pull requests do not request code owners until they are marked ready. Paths are case sensitive. A broken line is skipped. The file must be under 3 MB.
+
+Defining code owners is included for public repositories on [GitHub Free](https://docs.github.com/en/get-started/learning-about-github/githubs-plans), and for public and private repositories on [GitHub Pro](https://docs.github.com/en/get-started/learning-about-github/githubs-plans), [GitHub Team](https://docs.github.com/en/get-started/learning-about-github/githubs-plans), and [GitHub Enterprise Cloud](https://docs.github.com/en/get-started/learning-about-github/githubs-plans). You can commit the file on any plan. Automatic review requests are the feature those plans turn on.
+
+Requiring their approval is a separate switch on a branch protection rule or a ruleset. We leave that switch off. You already saw that you cannot approve your own pull request. A required code-owner review that names only you would wait for an approval you are not allowed to give. The repository owner can still merge some protected pull requests without that approval. That escape hatch is not the habit we are building.
+
+**Do this** on `main`:
+
+1. **Add file**. Name it `.github/CODEOWNERS`. The `.github/` directory is created with the file.
+2. Type:
+
+```text
+# Default owner for every path. Not a required review.
+* @YOUR-USERNAME
+```
+
+Replace `YOUR-USERNAME` with your [GitHub](https://github.com/) login, without a space after `@`.
+
+3. Commit directly to `main`. Message: `Name the owner in CODEOWNERS`.
+
+Open the file on [GitHub](https://github.com/). Syntax errors, if you introduce one, are marked on the file. Do not open a pull request just to watch yourself get requested. Do not edit the disabled ruleset to require code-owner review.
+
+**Working rule:** `CODEOWNERS` records who should be asked. A ruleset or branch protection rule is what makes that ask block the merge. On `hello-git` the file is the record, and the block stays off.
+
+### Issues, Projects, and Discussions Around the Git Graph
+
+An issue, a project, and a discussion sit beside the commits. None of them is a snapshot, a branch, or a tag. Closing one does not revert a commit. Mentioning a commit SHA inside an issue does not change the graph.
+
+**Issues** track a bug, an idea, or a task ([About issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues), [Creating an issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue)). People with read access can open one when issues are enabled. They are enabled on `hello-git` unless you turned them off.
+
+**Projects** are tables, boards, and roadmaps for issues and pull requests, owned by your user or by an organization ([About Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects), [Creating a project](https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project)). A project is not a repository and not a branch.
+
+**Discussions** are threaded conversations: questions, announcements, ideas ([About discussions](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions)). An admin enables them per repository ([Enabling or disabling GitHub Discussions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository)). Until you do, `hello-git` has no Discussions tab.
+
+**Do this:**
+
+1. Open **Issues** → **New issue**. Title: `Practice: a follow-up that is not a commit`. Body: `Track a note beside the graph. Closing this does not change a SHA.` Submit the issue. Leave it open for the next step.
+2. Open **Projects**. If [GitHub](https://github.com/) offers **New project**, create one owned by your user, accept the default template, and name it `hello-git practice`. Add the open issue to it ([Creating a project](https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project)). If the page only lets you link a project you do not have, stop after reading it.
+3. Back on the issue, click **Close issue**. The number stays. The project may still list the closed item. That is the point: the board is not the commit history.
+4. **Settings** → **General** → **Features**, select **Discussions**, and save if there is a save button. Open **Discussions** → **New discussion**. Choose **General** if that category is listed, otherwise the first category. Title: `Practice: what this repository is`. Body: `A conversation beside hello-git. This is not a commit.` Post it ([Participating in a discussion](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/participating-in-a-discussion)).
+
+Do not delete the issue. Do not turn discussions back off. Do not add an issue template. The template catalog is real ([About issue and pull request templates](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)) and it is not this lab.
+
+**Working rule:** issues, projects, and discussions are host records around the graph. The graph changes only when a commit does.
+
+### [GitLab](https://gitlab.com/), [Bitbucket](https://bitbucket.org/), [Codeberg](https://codeberg.org/), and [Azure Repos](https://azure.microsoft.com/en-us/products/devops/repos)
+
+These products store [Git](https://git-scm.com/) repositories and add their own web UI. History and Evolution of Git named them. This is the same tour, once, so the buttons you have been clicking are not the whole of [Git](https://git-scm.com/).
+
+- **[GitLab](https://gitlab.com/)** — [gitlab.com](https://gitlab.com/) and self-managed [GitLab](https://about.gitlab.com/). A merge request is their name for a pull request.
+- **[Bitbucket](https://bitbucket.org/)** — [bitbucket.org](https://bitbucket.org/). Pull requests on [Git](https://git-scm.com/) repositories. The product also had [Mercurial](https://www.mercurial-scm.org/) years ago and then dropped it.
+- **[Codeberg](https://codeberg.org/)** — [codeberg.org](https://codeberg.org/). A public [Git](https://git-scm.com/) host with issues, pull requests, and a web editor.
+- **[Azure Repos](https://azure.microsoft.com/en-us/products/devops/repos)** — [Git](https://git-scm.com/) repositories inside [Azure DevOps](https://azure.microsoft.com/en-us/products/devops). Pull requests and branch policies play the role of [GitHub](https://github.com/) pull requests and rulesets.
+
+The commits are [Git](https://git-scm.com/) commits. The permission screen, the review screen, and the protected-branch screen are each host's own. Do not create an account on any of them for this book. Additional Resources and Reading Materials → Other Git Hosts is the pointer list, not a second classroom.
+
+**Working rule:** learn the graph on [GitHub](https://github.com/). Read other hosts as the same [Git](https://git-scm.com/) with different labels. Do not split `hello-git` across them.
+
+### Summary: Collaboration, Access, and Other Git Hosts
+
+We separated access and conversation from the commit graph. A personal repository has an owner and collaborators ([Permission levels for a personal account repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository)). You opened the invite page and sent nothing unless a classmate was actually waiting ([Inviting collaborators to a personal repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository)). Teams and the Read-to-Admin role scale belong to an organization ([About organization teams](https://docs.github.com/en/organizations/organizing-members-into-teams/about-teams), [Repository roles for an organization](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization)). A ruleset is host policy on branches ([About rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)). Where your plan allows it, `practice-require-pr` targets the default branch and stays **Disabled**, so `main` still accepts a direct commit. `CODEOWNERS` names you as the owner of every path ([About code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)) and does not block merges. You opened an issue, optionally put it on a project, closed the issue, and posted a discussion ([About issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues), [About Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects), [About discussions](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions)). [GitLab](https://gitlab.com/), [Bitbucket](https://bitbucket.org/), [Codeberg](https://codeberg.org/), and [Azure Repos](https://azure.microsoft.com/en-us/products/devops/repos) are other places [Git](https://git-scm.com/) lives. We did not log in. Next, we will walk through Common Challenges and Debugging Tips.
