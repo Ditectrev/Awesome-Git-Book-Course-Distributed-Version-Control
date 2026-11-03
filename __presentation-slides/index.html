@@ -2100,6 +2100,208 @@
 * **Revert** put `left side` back and left the old commits in history <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * The web UI adds commits; it does not erase them <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
 * Next: Releases, Ignore Files, and Repository Hygiene <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Releases, Ignore Files, and Repository Hygiene
+
+---
+
+* `hello-git` has history you can still open <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* This chapter: what you keep out of it, and how you name a version <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Still no local Git install <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Still no real password, key, or token — not even as a test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Add a short `.gitignore` on `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Publish a GitHub release `v0.1.0` pointed at that branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The number is Semantic Versioning <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The tag names one commit. The release is the GitHub page on that tag <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### What a gitignore File Is For
+
+---
+
+* A list of patterns for untracked files <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Git leaves matching paths out of the next commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit the file so the rules are shared <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A laptop-only ignore file is a later chapter <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Does not delete a path already in a commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Deleting the file on the tip leaves older blobs in place <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Does not lock the Commit changes button <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Creating a matching file by hand and committing it is an explicit add <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: untracked junk stays out of future snapshots <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* History is not scrubbed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Common Ignore Patterns
+
+---
+
+* `.DS_Store` — macOS folder metadata <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `.env` — convention for passwords and tokens <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `*.log` — names ending in `.log` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `node_modules/` — a trailing slash means a directory <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `!` un-ignores one path. You do not need it here <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Add file, name it `.gitignore` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Leave any template list unset <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Type `.DS_Store`, `.env`, and `*.log` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit to `main`: Ignore local metadata, env files, and logs <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not add a file named `.env` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: ignore generated files, machine metadata, and secret-shaped names <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit the `.gitignore` file itself <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### The GitHub gitignore Template Picker
+
+---
+
+* Menus come from github/gitignore <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Same catalog as the create-repository menu you left unset <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A language template fits a real project in that language <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* It does not fit a README-only practice repo <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: the picker is a starter catalog, not a complete policy <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* For `hello-git`, the lines you typed are the whole rule set <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Secrets That Must Never Be Committed
+
+---
+
+* Passwords, API tokens, private keys, connection strings, a real `.env` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit the name `.env` in `.gitignore`. Do not commit the file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A private repository is still stored on GitHub <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Deleting the file on `main` removes it from the tip only <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Secret scanning on public repositories is automatic and free <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Push protection for your user blocks known secret patterns on public pushes <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Known patterns are not every password you invent <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not type a real token to watch the block <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* First move if a secret is already in a commit: revoke or rotate it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Erasing the blob from history rewrites every later SHA <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The web editor has no button for that rewrite <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: secrets never go in a commit, public or private <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Scanning is a backstop. Revoke a leak. A delete-commit is not a purge <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Tags vs Releases
+
+---
+
+* A tag is a Git name for one commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A branch moves when you commit. A tag stays <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Lightweight: a name. Annotated: its own object, with a message <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You do not hand-build that object in the web UI <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* A release is a GitHub page attached to a tag <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Title, notes, optional files, plus source zip and tarball <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Tag date and release date can differ <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Read access views a release. Write access publishes one <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: the tag names the commit. The release announces the name <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Moving a tag to another commit is a rewrite <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Creating a Release on GitHub
+
+---
+
+* Releases → Draft a new release <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Choose a tag: type `v0.1.0`, then Create new tag <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Target: `main`, after `.gitignore` is committed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Title `0.1.0`. One sentence in the notes <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Leave pre-release unchecked. Do not attach a binary <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Publish release <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* The zip is that commit, not whatever `main` is next week <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A later commit does not change this release <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The next version is a new tag <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: publish `v0.1.0` from `main` after the ignore file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Notes say why the tag exists <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Semantic Versioning in Practice
+
+---
+
+* `MAJOR.MINOR.PATCH` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Patch: a compatible fix. Minor: a compatible addition <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Major: a breaking change <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `0.y.z` is initial development. Breaking changes are still allowed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* `v` is a tag prefix, not part of the three numbers <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The title can be `0.1.0` while the tag is `v0.1.0` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Spec pre-release: `1.0.0-rc.1` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* GitHub's pre-release checkbox is a label, not that hyphen <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Do not reuse `v0.1.0` for a later commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Next tag: `v0.1.1`, `v0.2.0`, or `v1.0.0` — whichever the change requires <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: the tag records which snapshot the number means <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Increase the leftmost number the change requires <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Releases, Ignore Files, and Repository Hygiene
+
+---
+
+* `.gitignore` skips untracked paths. It does not purge history <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You wrote `.DS_Store`, `.env`, and `*.log`. The template menu stayed unset <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Secrets stay out of every repository. Revoke a leak. A delete is not a rewrite <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Tag names the commit. Release is the GitHub page. You published `v0.1.0` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Semantic Versioning: `0.1.0`, with `v` only on the tag <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Collaboration, Access, and Other Git Hosts <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
