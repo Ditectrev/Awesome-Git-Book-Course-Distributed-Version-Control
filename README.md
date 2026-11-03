@@ -1718,3 +1718,135 @@ The browser can add commits. It cannot pretend a published commit never existed.
 ### Summary: Conflicts and History Repair in the Browser
 
 We made [Git](https://git-scm.com/) stop. Two branches edited `Conflict practice: original sentence.` after the same parent, so the second pull request could not merge ([Merge conflicts](https://docs.github.com/en/pull-requests/reference/merge-conflicts)). **Resolve conflicts** showed `<<<<<<<`, `=======`, and `>>>>>>>` with the branch names on them ([Resolving a merge conflict on GitHub](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github)). You deleted the markers, kept one new sentence, and **Commit merge** brought all of `main` into `right-side` before you merged the pull request. Smaller pull requests and **Update branch** (only when there is no conflict yet) are how you avoid that editor ([Keeping your pull request in sync with the base branch](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/keeping-your-pull-request-in-sync-with-the-base-branch)). **Revert** on the merged pull request added a commit that put `Conflict practice: left side.` back on `main` ([Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request), [git-revert](https://git-scm.com/docs/git-revert)). The older commits are still on the Commits page. The web UI does not reset, force-push, or erase them. Next, we will walk through Releases, Ignore Files, and Repository Hygiene.
+
+## Releases, Ignore Files, and Repository Hygiene
+
+`hello-git` now has commits, branches, a pull request you reverted, and a history you can still open. This chapter is what you keep out of that history, and how you name a commit you are willing to call a version.
+
+You still do not install [Git](https://git-scm.com/). You still do not commit a real password, key, or token, not even as a test.
+
+**What you do:** add a short `.gitignore` on `main`, then publish a [GitHub](https://github.com/) release `v0.1.0` pointed at that branch. The number is [Semantic Versioning](https://semver.org/). The tag is a [Git](https://git-scm.com/) name for one commit. The release is the [GitHub](https://github.com/) page on top of the tag.
+
+Canonical pages: [Ignoring files](https://docs.github.com/en/get-started/git-basics/ignoring-files), [gitignore](https://git-scm.com/docs/gitignore), [About releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases), [Managing releases in a repository](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository), [Semantic Versioning](https://semver.org/).
+
+### What a gitignore File Is For
+
+A `.gitignore` file is a list of patterns. [Git](https://git-scm.com/) uses it when deciding which **untracked** files to leave out of the next commit. Docs: [gitignore](https://git-scm.com/docs/gitignore), [Pro Git: Ignoring files](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository#_ignoring), [Ignoring files](https://docs.github.com/en/get-started/git-basics/ignoring-files).
+
+Commit the file in the repository if you want other people, and [GitHub](https://github.com/), to share the same rules. A pattern that lives only on your laptop (a global ignore file, or `.git/info/exclude`) is Git on Your Own Machine. This chapter commits the rules.
+
+What the file does not do:
+
+- It does not delete a path that is already in a commit. [GitHub](https://github.com/)'s ignore article says an already checked-in file stays tracked until you remove it from the index. On a machine that is `git rm --cached`. In the web editor, deleting the file only changes the tip. Older commits still have the blob, as with `NOTES.md`.
+- It is not a lock on the **Commit changes** button. If you create `secret.txt` by hand and commit it, you asked for that path. Do not treat `.gitignore` as a guarantee.
+- It does not hide a file from a commit that already contains it. Anyone who can read that commit can read the bytes.
+
+Blank lines are skipped. A line starting with `#` is a comment.
+
+**Working rule:** `.gitignore` keeps untracked junk out of future snapshots. It does not scrub history, and it does not refuse a file you explicitly commit.
+
+#### Common Ignore Patterns
+
+Patterns are matched as in the [gitignore](https://git-scm.com/docs/gitignore) specification. These are the ones `hello-git` needs, plus the shapes you will see in other repositories.
+
+- `.DS_Store` — macOS folder metadata. It is not your project.
+- `.env` — a file people fill with passwords and API tokens. The name is convention, not magic.
+- `*.log` — the star matches a name ending in `.log` in any directory.
+- `node_modules/` — a trailing slash means a directory. Dependency folders are recreated by a tool. They do not belong in the snapshot. `hello-git` has no such folder. The pattern is here so you can read it.
+- `!` at the start of a line un-ignores a file a broader pattern caught. Use it when you must keep one path inside an ignored directory. You do not need a negation in this exercise.
+
+A pattern with no slash can match in any directory. A pattern that starts with `/` is anchored to the directory that holds that `.gitignore`. The root `.gitignore` is the one we commit.
+
+**Do this** on `main`:
+
+1. **Add file** → **Create new file**. Name it `.gitignore`.
+2. If [GitHub](https://github.com/) offers a template list, leave it unset. The next section says what that list is. Type these lines yourself:
+
+```text
+# Untracked paths to leave out of later commits.
+.DS_Store
+.env
+*.log
+```
+
+3. Commit directly to `main`. Message: `Ignore local metadata, env files, and logs`.
+
+Do not add a file named `.env`. The pattern is the lesson. A real environment file stays off [GitHub](https://github.com/).
+
+**Working rule:** ignore generated files, machine metadata, and secret-shaped filenames. Commit the source you mean to share, including the `.gitignore` file itself.
+
+#### The [GitHub](https://github.com/) gitignore Template Picker
+
+[GitHub](https://github.com/) fills its ignore menus from [github/gitignore](https://github.com/github/gitignore): starter files for languages, tools, and operating systems. You saw the menu when you created `hello-git` and left it unset ([Creating a new repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository)). The same catalog can appear when the new file is named `.gitignore`.
+
+A language template is a reasonable start for a real project in that language. It is a bad fit for this repository. `hello-git` is a README and an ignore file. A Node or Python template would add rules for tools you are not using and would hide the three lines you just learned.
+
+Use the picker later, on a repository that has a build. Read the file it inserts. Delete lines that ignore source you intend to commit. Then add `.env` if the template forgot it.
+
+**Working rule:** the picker is [github/gitignore](https://github.com/github/gitignore), not a complete policy. For `hello-git`, the four-line file you typed is the whole rule set.
+
+### Secrets That Must Never Be Committed
+
+A secret is anything that grants access or proves identity: a password, an API token, a private key, a cloud credential, a database connection string, the contents of a real `.env`. Commit the name `.env` in `.gitignore`. Do not commit the file.
+
+A private repository is not a safe deposit. It is still stored on [GitHub](https://github.com/), and anyone you invite can read every commit. A public repository is readable without an invite. Deleting the file on `main` removes it from the tip only.
+
+[GitHub](https://github.com/) **secret scanning** looks through history for known credential formats. On **public** repositories it runs automatically, at no charge ([Secret scanning](https://docs.github.com/en/code-security/concepts/secret-security/secret-scanning)). **Push protection** for your user is on by default and blocks pushes of detected secrets to public repositories ([Push protection](https://docs.github.com/en/code-security/concepts/secret-security/push-protection)). That block covers known patterns, such as provider tokens and private keys. It will not catch every password you invent. Do not use a blocked push as the way you learn the rule. Do not type a real token into the editor to see the error.
+
+If a secret is already in a commit, the first move is to **revoke or rotate** it so the leaked value no longer works. Removing the blob from history is a rewrite: every later SHA changes, collaborators must abandon old clones, and the web editor has no button for it. [GitHub](https://github.com/) documents that rewrite, and its side effects, in [Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). Common Challenges and Debugging Tips (`I Committed a Secret`) is the later page in this book. Appendix A is why a rewrite is not an ordinary commit.
+
+**Working rule:** secrets never go in a commit, public or private. Scanning and push protection are backstops for known shapes. Revoke a leaked secret. Do not expect `.gitignore` or a delete-commit to pull it out of old snapshots.
+
+### Tags vs Releases
+
+A **tag** is a [Git](https://git-scm.com/) name for one commit, like a branch that you do not move. Docs: [Pro Git: Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging). A branch moves when you commit. A tag stays on the snapshot you marked, which is why it can mean "this is version 0.1.0."
+
+[Git](https://git-scm.com/) has lightweight tags (a name pointing at a commit) and annotated tags (their own object, with a tagger and a message). You do not build that object by hand in this chapter.
+
+A **release** is a [GitHub](https://github.com/) page attached to a tag. Docs: [About releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases). It adds a title, notes, and optional downloadable files. [GitHub](https://github.com/) also offers a zip and a tarball of the repository at that tag. The tag and the release can be created at different times, so their dates need not match. People with read access can view a release. Publishing one takes write access.
+
+You can have a tag and no release. On [GitHub](https://github.com/), a release is based on a tag: creating the release is how we will create `v0.1.0`.
+
+**Working rule:** the tag names the commit. The release is the [GitHub](https://github.com/) announcement of that name. Moving a tag to a different commit later is a rewrite. Do not do it.
+
+### Creating a Release on [GitHub](https://github.com/)
+
+Docs: [Managing releases in a repository](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository). The tag you create should point at the `main` that already contains `.gitignore`.
+
+**Do this:**
+
+1. On `hello-git`, open **Releases** (beside the file list, or `https://github.com/YOUR-USERNAME/hello-git/releases`).
+2. Click **Draft a new release**.
+3. In **Choose a tag**, type `v0.1.0` and click **Create new tag**.
+4. Set **Target** to `main`.
+5. Release title: `0.1.0`.
+6. In the description, write one sentence: `First practice release. History so far, plus a gitignore file.` You may use **Generate release notes** if it is offered. There is no previous tag, so the generated list is the commits already on `main`. Keep your sentence at the top.
+7. Leave **Set as a pre-release** unchecked. If **Set as the latest release** is offered, leave it checked.
+8. Do not attach a binary. [GitHub](https://github.com/) will still offer source zip and tarball for the tag.
+9. Click **Publish release**.
+
+Open the release. The tag is `v0.1.0`. The source archives are that commit, not "whatever `main` is next week." A later commit on `main` does not change this release. The next version is a new tag.
+
+The tag also shows up with the repository's tags ([Viewing your repository's releases and tags](https://docs.github.com/en/repositories/releasing-projects-on-github/viewing-your-repositorys-releases-and-tags)). You do not need to delete this release.
+
+**Working rule:** publish `v0.1.0` from `main` after the ignore file is committed. The zip is that snapshot. Notes explain why the tag exists.
+
+### Semantic Versioning in Practice
+
+[Semantic Versioning](https://semver.org/) is the numbering rule: `MAJOR.MINOR.PATCH`.
+
+- **PATCH** (`0.1.1`) — a fix that does not change how callers are supposed to use the project.
+- **MINOR** (`0.2.0`) — a backward-compatible addition. Reset patch to 0.
+- **MAJOR** (`1.0.0`) — a breaking change. Reset minor and patch to 0.
+
+`0.y.z` is initial development. The spec allows breaking changes while the major number is 0. `v0.1.0` matches that. The `v` is a tag prefix so the name is obvious in a tag list. It is not part of the three numbers. The release title can be `0.1.0` without the prefix. You used both on purpose.
+
+A pre-release in the spec looks like `1.0.0-rc.1`. [GitHub](https://github.com/)'s **Set as a pre-release** checkbox is a label on the release page. It is not the hyphen in the version string. You left the checkbox off.
+
+Do not reuse `v0.1.0` for a later commit. Readers of the zip, and anyone who checked out the tag, would be looking at a different snapshot under the same name. The next practice release, when you have one, is a new tag: `v0.1.1` for a fix, `v0.2.0` for a compatible addition, `v1.0.0` when you are willing to call the behavior stable.
+
+**Working rule:** the tag records which snapshot the number means. Increase the leftmost number that the change requires. Never slide an existing tag to a new commit.
+
+### Summary: Releases, Ignore Files, and Repository Hygiene
+
+We kept junk and secrets out of future commits, then named a snapshot. A committed `.gitignore` lists untracked paths [Git](https://git-scm.com/) should skip ([gitignore](https://git-scm.com/docs/gitignore), [Ignoring files](https://docs.github.com/en/get-started/git-basics/ignoring-files)). It does not remove a blob already in history. You wrote `.DS_Store`, `.env`, and `*.log` yourself. The template menu is [github/gitignore](https://github.com/github/gitignore), and you left it unset. Secrets — tokens, keys, real `.env` files — do not go in any repository. Public repositories get [secret scanning](https://docs.github.com/en/code-security/concepts/secret-security/secret-scanning) and, for your user, [push protection](https://docs.github.com/en/code-security/concepts/secret-security/push-protection) against known patterns. A leaked secret is revoked first. Erasing it from history is a rewrite, not a web-editor delete ([Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)). A tag is a [Git](https://git-scm.com/) name for one commit ([Pro Git: Tagging](https://git-scm.com/book/en/v2/Git-Basics-Tagging)). A release is the [GitHub](https://github.com/) page on that tag ([About releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)). You published `v0.1.0` from `main` ([Managing releases in a repository](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)). [Semantic Versioning](https://semver.org/) reads that as major 0, minor 1, patch 0, with `v` only on the tag. Next, we will walk through Collaboration, Access, and Other Git Hosts.
