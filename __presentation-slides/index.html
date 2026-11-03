@@ -2302,6 +2302,170 @@
 ---
 
 * Next: Collaboration, Access, and Other Git Hosts <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Collaboration, Access, and Other Git Hosts
+
+---
+
+* Who else may touch `hello-git`, and which screens are not commits <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Still no local Git, no new organization, no second host account <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Other hosts are a tour. The longer list is Additional Resources <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Open the collaborator page. Invite only a classmate who is waiting <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Save one ruleset on the default branch, enforcement Disabled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commit CODEOWNERS that names you. Do not require that review <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One issue, a project if you can create one, then close the issue <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Enable discussions and post one <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Collaborators, Teams, and Permissions
+
+---
+
+* A collaborator is a GitHub account you invite <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The invite is host access. It is not a Git commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Personal repository: owner, and collaborators <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A private personal repo grants collaborators write, not read-only <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Teams exist on an organization <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Org roles: Read, Triage, Write, Maintain, Admin <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You sign in as yourself. Do not create an organization <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Settings → Access → Collaborators <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Leave the box empty when you are practicing alone <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One invite, to a username that expects it. Cancel a pending invite on the same page <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Removing a collaborator from a private repo deletes their fork on GitHub <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: no invite is a complete result when you are alone <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Teams and the five org roles are not this repository <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Branch Protection and Rulesets
+
+---
+
+* Host settings about who may update a branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A branch protection rule targets one name pattern <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A ruleset can target the default branch, patterns, and tags <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Matching rulesets layer. There is no priority number <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Public repositories on GitHub Free include rulesets <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Private repositories need Pro, Team, or Enterprise Cloud <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* If the button is missing, do not flip visibility and do not start a trial <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Active applies immediately. Disabled is stored and does not apply <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* New branch ruleset, name `practice-require-pr` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Enforcement Disabled. Target the default branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Require a pull request. Leave required reviews off <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not add a classic branch protection rule beside it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: Disabled lets you read the policy <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Active on `main` would block the direct commits this book still uses <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### CODEOWNERS and Required Reviews
+
+---
+
+* Names people or teams for paths. GitHub reads it on a pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* File lives in the root, `.github/`, or `docs/` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The copy that matters is on the base branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Drafts do not request code owners until they are ready <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Commit `.github/CODEOWNERS` on `main`: `* @YOUR-USERNAME` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You can commit the file on any plan <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Automatic review requests follow the plan: public on Free, public and private on paid plans <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Requiring their approval is a separate ruleset switch. Leave it off <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* You cannot approve your own pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A required review that names only you would wait forever <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: the file records who should be asked <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The ruleset is what makes that ask block the merge <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Issues, Projects, and Discussions Around the Git Graph
+
+---
+
+* An issue, a project, and a discussion are not snapshots <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Closing one does not revert a commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Mentioning a SHA in an issue does not change the graph <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* New issue: Practice: a follow-up that is not a commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* New project `hello-git practice` if the button is there, and add the issue <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Close the issue. The number stays <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Settings → Features → Discussions, then post one in General <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: these are host records around the graph <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The graph changes only when a commit does <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### GitLab, Bitbucket, Codeberg, and Azure Repos
+
+---
+
+* GitLab calls a pull request a merge request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Bitbucket pull requests sit on Git repositories <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Codeberg is a public Git host with issues and a web editor <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Azure Repos keeps Git inside Azure DevOps. Branch policies stand in for rulesets <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* The commits are Git commits. The screens are each host's own <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not create an account for this book <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: learn the graph on GitHub <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Read other hosts as the same Git with different labels <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Collaboration, Access, and Other Git Hosts
+
+---
+
+* Owner and collaborator. No invite unless a classmate is waiting <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `practice-require-pr` stays Disabled where your plan allows the page <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* CODEOWNERS names you and does not block merges <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One issue, a project if you created one, one discussion <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* GitLab, Bitbucket, Codeberg, and Azure Repos: same Git, no login <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Common Challenges and Debugging Tips <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
