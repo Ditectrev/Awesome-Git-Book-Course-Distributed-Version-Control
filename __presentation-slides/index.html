@@ -2466,6 +2466,171 @@
 ---
 
 * Next: Common Challenges and Debugging Tips <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Common Challenges and Debugging Tips
+
+---
+
+* A commit on the wrong branch, a secret, a huge pull request, `master`, a blocked merge <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Still no local Git. Still no force-push, amend, or reset <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Still no live token, not even to test a scanner <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Commit one line on `main` by mistake <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Point `keep-line` at it, then revert on `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Re-open `NOTES.md` in the old tree <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Confirm the default branch is `main` and the ruleset is Disabled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### I Committed to the Wrong Branch
+
+---
+
+* Commit directly to `main` puts the snapshot on `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The web editor cannot lift that commit off the branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Make a new branch at that tip so the work stays reachable <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Revert on `main` adds an undo. The original commit stays <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Append `Wrong branch practice.` on `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Create `keep-line` from `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Revert that commit. Merge the revert with Create a merge commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The line is gone on `main` and still on `keep-line` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: branch to keep the work, revert where it does not belong <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Leave `keep-line`. Cherry-pick is Appendix B <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### I Committed a Secret
+
+---
+
+* First move: revoke or rotate the credential <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Deleting the file on the tip leaves the blob in older commits <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `NOTES.md` is still in the tree for `Add a practice note` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not paste the value into an issue, a pull request, or a discussion <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Push protection blocks known patterns on public pushes <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* It will not catch every password you invent <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Removing the blob rewrites later SHAs and needs a force-push <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* That procedure is Appendix A. Stop before the commands <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: a dead credential is the outcome you need <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The old commits can stay <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### The Pull Request Is Too Big to Review
+
+---
+
+* Too big: unrelated files, or no one-sentence description <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* GitHub will still merge it. Reviewers will not read it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The web editor will not split one commit into several <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Mark it Draft, or close it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* New branch from `main`, one piece, one pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The revert you just merged should be one file. Copy that size <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: one pull request, one sentence <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### GitHub Still Shows master as the Default Branch
+
+---
+
+* New repositories use `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `master` means an older repo, a rename, or a changed account default <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Renaming keeps the commits. GitHub redirects the old URLs <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Settings → General → Default branch on `hello-git` should say `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not switch it to `keep-line` or to `master` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: `main` stays the default on this repository <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `master` is a branch name, not a different Git <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### The Merge Button Is Blocked
+
+---
+
+* Read the merge box before you change a setting <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Draft: Ready for review <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Conflicts: Resolve conflicts, when GitHub can show the file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Ruleset or branch protection: reviews, code owners, or checks <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* `practice-require-pr` stays Disabled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You cannot approve your own pull request <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* An empty Checks tab is not a failure <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not turn the ruleset Active to watch the button lock <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: the merge box names the blocker <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### A 30-Day Browser-Only Practice Plan
+
+---
+
+* Five visits a week. `hello-git` or a page you already know <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No install, no rewrite, no secret, no Active ruleset <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Week 1: root commit, press `y`, old `NOTES.md`, `.gitignore`, release `v0.1.0` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Week 2: a branch you delete, a one-file merge, a pull request you close, the network graph <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Week 3: ruleset still Disabled, CODEOWNERS, the closed issue, the discussion, default branch `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Week 4: read this book's commits, sync the Spoon-Knife fork, replay Branching in Git <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Week 5: a squash merge, parent counts, the tag versus the tip. Stop before rewrite commands <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Week 6: collaborators, a rebase merge, `keep-line` beside `main`, three SHAs you can still open <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: one small click a day, on a repository you own or a public page <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Common Challenges and Debugging Tips
+
+---
+
+* `keep-line` holds the mistaken line. A revert took it off `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Revoke a secret. `NOTES.md` shows why a delete is not a purge <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One sentence per pull request. Default branch stays `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The merge box names the blocker. The ruleset stays Disabled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Additional Resources and Reading Materials <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
