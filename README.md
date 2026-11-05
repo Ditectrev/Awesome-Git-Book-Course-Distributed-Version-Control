@@ -2126,3 +2126,243 @@ Thirty short visits, five a week. Each one uses `hello-git` or a page you alread
 ### Summary: Common Challenges and Debugging Tips
 
 We repaired a mistake by adding commits. A line committed on `main` by mistake now lives on `keep-line`, and a revert pull request took it off `main` ([git-revert](https://git-scm.com/docs/git-revert), [Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request)). A secret is revoked first. `NOTES.md` is still in the old tree, which is why a delete on the tip is not a purge ([Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)). A pull request you cannot describe in one sentence goes back to draft. The next change gets its own branch. `hello-git` stays on `main` ([Changing the default branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/changing-the-default-branch)). The merge box names the blocker, and `practice-require-pr` stays **Disabled**. Thirty browser visits reuse this repository. Next, we will walk through Additional Resources and Reading Materials.
+
+## Additional Resources and Reading Materials
+
+The practice on `hello-git` is done. This chapter is the list the earlier pages pointed at: editors, documents, other hosts, and a command line you can skip. Nothing here is required to have finished the book.
+
+You still do not rewrite history. You still do not commit a secret. You still do not open a pull request against a repository you do not own.
+
+**What you do:** on `hello-git`, press `.` and look at [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor). Do not commit. The rest of the page is a map. Git on Your Own Machine and Git Aliases are optional. The course is complete if you stop after the browser list.
+
+### Recommended Tools and Software for [Git](https://git-scm.com/)
+
+The Browser Lab already opened [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) and named two extensions. This section is the longer list, including the tools that wait for a machine with [Git](https://git-scm.com/) installed.
+
+**Do this:** open `hello-git` and press `.`. You should see the [VS Code](https://code.visualstudio.com/) file tree. Open the Extensions view, look, and close the tab. Do not commit. Do not install anything yet.
+
+#### [VS Code](https://code.visualstudio.com/) and [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor)
+
+[github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) is [VS Code for the Web](https://code.visualstudio.com/docs/editor/vscode-web) pointed at a [GitHub](https://github.com/) repository. Press `.` on the repository page, or change `github.com` to `github.dev` in the address bar. Docs: [Using VS Code for the Web from GitHub](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor). It is free. It is not [GitHub Codespaces](https://github.com/features/codespaces). There is no terminal and no local clone.
+
+Uncommitted edits sit in browser storage until you commit. [Source Control](https://code.visualstudio.com/docs/sourcecontrol/overview) is the same three areas as Core Principles of Git: changes, staged changes, then a commit that [GitHub](https://github.com/) stores on the branch. The one-file [web file editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is still the right tool for a one-line change. Use [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) when you want search across files.
+
+[vscode.dev](https://vscode.dev/) is the same editor family without starting from a repository URL. We keep saying [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) because that is the [GitHub](https://github.com/) shortcut.
+
+**Working rule:** `.` opens the browser editor. Commit only on a repository you own, and only when you meant to change that branch.
+
+#### [GitHub](https://github.com/) Pull Requests
+
+[GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) reviews pull requests and issues inside [VS Code](https://code.visualstudio.com/). Publisher: [GitHub](https://github.com/). It calls the [GitHub](https://github.com/) API. It does not need a `git` binary on disk, so it can run in [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor).
+
+You already reviewed a pull request in the browser. The extension is another window onto that same object. Install it only if you want pull requests in the editor. The book does not use it for a lab.
+
+**Working rule:** the extension is optional chrome. The pull request still lives on [GitHub](https://github.com/).
+
+#### [GitLens](https://www.gitkraken.com/gitlens)
+
+[GitLens](https://www.gitkraken.com/gitlens), from [GitKraken](https://www.gitkraken.com/), shows blame and file history in the editor. Marketplace: [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens). On [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) it runs as a web extension and reads [GitHub](https://github.com/) instead of a local clone. Inline blame on a public repository does not need [Git](https://git-scm.com/) installed.
+
+The desktop product does more, including graphs that want a local repository. Paid features are not this book. Community blame on a public file is the part that matches the browser path.
+
+**Working rule:** [GitLens](https://www.gitkraken.com/gitlens) in the browser annotates a file. It does not replace the Commits page, and it does not install [Git](https://git-scm.com/).
+
+#### [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph)
+
+[Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) draws a commit graph from a [Git](https://git-scm.com/) repository on disk, or in a machine that has [Git](https://git-scm.com/). [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) has no `git` binary, so this extension does not belong in that tab. Install it later, beside a local clone, or inside an optional [GitHub Codespaces](https://github.com/features/codespaces) session.
+
+To see a graph without installing [Git](https://git-scm.com/), use the [Network graph](https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository/understanding-connections-between-repositories) on `hello-git` and [Learn Git Branching](https://learngitbranching.js.org/).
+
+**Working rule:** [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) waits for a real repository on a machine. The browser graph is the Network page.
+
+#### Which Extensions Work in [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) Without Local [Git](https://git-scm.com/)
+
+[VS Code for the Web](https://code.visualstudio.com/docs/editor/vscode-web) runs **web extensions** only ([Web extensions](https://code.visualstudio.com/api/extension-guides/web-extensions)). The Extensions view in [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) already hides the ones that need [Node.js](https://nodejs.org/) or a local binary.
+
+These two talk to [GitHub](https://github.com/) and do not need [Git](https://git-scm.com/) on disk:
+
+- [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)
+- [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
+
+[Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) does not. If an extension's page says it needs a local repository, leave it for Git on Your Own Machine.
+
+**Working rule:** if it runs in [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor), it is a web extension. A graph of a local clone is not one of those.
+
+#### [Chrome](https://www.google.com/chrome/) Extensions for [GitHub](https://github.com/)
+
+A [Chrome](https://www.google.com/chrome/) extension changes [github.com](https://github.com/) pages in the browser. It is not a [VS Code](https://code.visualstudio.com/) extension and it does not run inside [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor). It can read the [GitHub](https://github.com/) pages you open, so install one only from that project's own page, and only if you want the extra UI. The book is readable without either of the two below.
+
+**Working rule:** browser extensions restyle the website. They are not [Git](https://git-scm.com/), and they are not required.
+
+#### [Refined GitHub](https://github.com/refined-github/refined-github)
+
+[Refined GitHub](https://github.com/refined-github/refined-github) adds small UI changes on [github.com](https://github.com/): clearer links, extra buttons, less noise. The repository documents how to install it. Use that page. Do not hunt a random copy.
+
+It does not change commits, branches, or SHAs. If a button it adds disagrees with this book, follow the [GitHub](https://github.com/) page, not the extension.
+
+**Working rule:** [Refined GitHub](https://github.com/refined-github/refined-github) is optional paint on the website. The objects underneath stay the ones you already clicked.
+
+#### [Octotree](https://www.octotree.io/)
+
+[Octotree](https://www.octotree.io/) puts a file tree beside a [GitHub](https://github.com/) repository page so you can jump between files without walking back to the Code tab. Install from [octotree.io](https://www.octotree.io/) if you want it. The file list on the Code tab, and the tree in [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor), already show the same paths.
+
+**Working rule:** [Octotree](https://www.octotree.io/) is a faster tree. It is not a second repository.
+
+#### [Chrome DevTools](https://developer.chrome.com/docs/devtools) Has No [Git](https://git-scm.com/) Panel
+
+[Chrome DevTools](https://developer.chrome.com/docs/devtools) inspects the page: HTML, CSS, network calls, console. It has no commit list, no branch menu, and no blame. Do not open it looking for `hello-git`'s history.
+
+History is the Commits page, a commit URL, the Network graph, and [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) Source Control.
+
+**Working rule:** [Chrome DevTools](https://developer.chrome.com/docs/devtools) is for the web page. [Git](https://git-scm.com/) history is on [GitHub](https://github.com/).
+
+### Official Docs and Hosted Playgrounds
+
+Bookmark these. You already used most of them.
+
+- [Git](https://git-scm.com/doc) — the project site, including the reference and the book.
+- [git documentation](https://git-scm.com/docs) — one page per command. This is the page a command's name links to.
+- [Pro Git](https://git-scm.com/book/en/v2) — the free book that explains the model.
+- [GitHub Docs](https://docs.github.com/) — the clicks on the host.
+- [GitHub Skills](https://skills.github.com/) — short hosted exercises on [GitHub](https://github.com/). Optional. They are not a replacement for `hello-git`.
+- [Learn Git Branching](https://learngitbranching.js.org/) — the sandbox. You stopped before rebase. Appendix A is where that level belongs.
+
+**Working rule:** the reference answers "what does this command do?" [GitHub Docs](https://docs.github.com/) answers "what does this button do?" The sandbox draws the graph. Your repository is still `hello-git`.
+
+### Further Reading and Industry Publications
+
+Read these when you want more than a lab. None of them is homework.
+
+- [Pro Git](https://git-scm.com/book/en/v2), especially the branching and internals chapters. Appendix C is our short version of the internals.
+- The command pages under [git documentation](https://git-scm.com/docs), one command at a time, when a button's local name matters.
+- [The GitHub Blog](https://github.blog/) for host changes, such as the default branch moving to `main`.
+- [GitHub Docs](https://docs.github.com/) changelog-style guides when a button you knew has moved. The article titles in this book are the stable names. If a click path drifts, search the doc title.
+
+**Working rule:** [Pro Git](https://git-scm.com/book/en/v2) is the model. [The GitHub Blog](https://github.blog/) is the host. A blog post does not change a SHA you already published.
+
+### Other [Git](https://git-scm.com/) Hosts
+
+Collaboration, Access, and Other Git Hosts named these products once. This is the pointer list, still not a lab. Do not create an account for this book.
+
+- **[GitLab](https://gitlab.com/)** — [docs.gitlab.com](https://docs.gitlab.com/). A merge request is their pull request.
+- **[Bitbucket](https://bitbucket.org/)** — [Bitbucket Cloud support](https://support.atlassian.com/bitbucket-cloud/). Pull requests on [Git](https://git-scm.com/) repositories.
+- **[Codeberg](https://codeberg.org/)** — [docs.codeberg.org](https://docs.codeberg.org/). Issues, pull requests, and a web editor.
+- **[Azure Repos](https://azure.microsoft.com/en-us/products/devops/repos)** — [Azure Repos Git](https://learn.microsoft.com/en-us/azure/devops/repos/git/) inside [Azure DevOps](https://azure.microsoft.com/en-us/products/devops). Branch policies sit where [GitHub](https://github.com/) puts rulesets.
+
+The commits are [Git](https://git-scm.com/) commits. The permission screen and the review screen belong to that host.
+
+**Working rule:** same [Git](https://git-scm.com/), different labels, no second classroom.
+
+### [Git](https://git-scm.com/) on Your Own Machine
+
+You can finish every main chapter without this section. Install [Git](https://git-scm.com/) when a task needs a working tree on disk: a local build, many files at once, or a later appendix that has no web button. Do not install it to repeat `hello-git`.
+
+#### When the Command Line Becomes Worth It
+
+The web editor commits one file well. A local [Git](https://git-scm.com/) is worth it when you:
+
+- Change many files and want one commit.
+- Run tests before you push.
+- Need stash, restore, or clean (Appendix G), cherry-pick or bisect (Appendix B), or a rewrite (Appendix A).
+- Want aliases, hooks, or signed commits (Appendix F).
+
+Until one of those is the task, stay on [GitHub](https://github.com/).
+
+**Working rule:** install [Git](https://git-scm.com/) for a job the browser cannot do. The labs you already finished are not that job.
+
+#### Installing [Git](https://git-scm.com/)
+
+Download the installer from [git-scm.com/downloads](https://git-scm.com/downloads/). Platform notes: [Pro Git: Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). After it is installed, [Set up Git](https://docs.github.com/en/get-started/git-basics/set-up-git) is [GitHub](https://github.com/)'s page for your name and email, which each commit records. Use an email [GitHub](https://github.com/) already has on your account if you want those commits linked to you.
+
+In a terminal, `git --version` prints a version when the install worked. Then stop. This book does not continue in that terminal.
+
+**Working rule:** the official installer, then a version check. No further local lab.
+
+#### Mapping Web Buttons to [Git](https://git-scm.com/) Commands
+
+The button and the command write the same kind of object. The names differ.
+
+- **Commit changes** in the web editor is `git add` of those paths, then `git commit`. On [GitHub](https://github.com/) the file is already on the branch. There is no separate push.
+- **Create branch** is `git branch` (the name) and `git switch` (checkout that name).
+- A **pull request** is not a [Git](https://git-scm.com/) command. Locally you push the branch. [GitHub](https://github.com/) stores the review object.
+- **Create a merge commit** is a merge that keeps two parents (`git merge` without fast-forward). You used that button.
+- **Squash and merge** writes one new commit on the base. The head SHAs stay on the head branch.
+- **Rebase and merge** replays the commits onto the base as new SHAs. Appendix A is the rebase itself. You already clicked the button and compared parent counts.
+- **Revert** is `git revert`: a new commit that undoes an older one. You did this on `main`.
+- **Sync fork** is the host fetching and merging upstream. Locally that idea is `git fetch` plus a merge. There is no Sync button on a laptop.
+
+**Working rule:** the web button is the command plus the host. A pull request has no `git` twin. A rebase rewrite is still Appendix A.
+
+#### clone, status, add, commit, push, and pull
+
+These six are the local loop. Docs: [git-clone](https://git-scm.com/docs/git-clone), [git-status](https://git-scm.com/docs/git-status), [git-add](https://git-scm.com/docs/git-add), [git-commit](https://git-scm.com/docs/git-commit), [git-push](https://git-scm.com/docs/git-push), [git-pull](https://git-scm.com/docs/git-pull), [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
+
+- `git clone` copies a repository, including history, onto disk. The **Code** button on `hello-git` shows the URL. You never needed the copy.
+- `git status` lists what changed in the working tree and what is staged. The web editor has no status page because the commit form is the whole change.
+- `git add` stages paths. **Commit changes** stages the file you edited.
+- `git commit` writes the snapshot. That is the same object as a commit on [GitHub](https://github.com/).
+- `git push` sends commits to the host. A commit made in the web editor is already there.
+- `git pull` brings new commits from the host into the local branch. **Sync fork** is the hosted cousin for a fork.
+
+Use HTTPS from the Code button if you ever clone. SSH keys are Appendix F. Do not clone `hello-git` as a required step.
+
+**Working rule:** clone copies history down. Add and commit make a snapshot. Push and pull move snapshots between the laptop and [GitHub](https://github.com/). The browser skipped the copy.
+
+#### [GitHub Desktop](https://github.com/apps/desktop), [GitHub CLI](https://cli.github.com/), and [GitLab CLI](https://docs.gitlab.com/editor_extensions/gitlab_cli/)
+
+Three optional clients. None of them is the lab.
+
+- **[GitHub Desktop](https://github.com/apps/desktop)** is a graphical [Git](https://git-scm.com/) client for [GitHub](https://github.com/). Docs: [GitHub Desktop](https://docs.github.com/en/desktop). It installs [Git](https://git-scm.com/) behavior without asking you to type every command. It is still a local app.
+- **[GitHub CLI](https://cli.github.com/)** (`gh`) drives [GitHub](https://github.com/) from a terminal: pull requests, issues, checks. Docs: [About GitHub CLI](https://docs.github.com/en/github-cli/github-cli/about-github-cli). It is not `git`. You still need [Git](https://git-scm.com/) for commit and push.
+- **[GitLab CLI](https://docs.gitlab.com/editor_extensions/gitlab_cli/)** (`glab`) is the [GitLab](https://gitlab.com/) counterpart. Source: [gitlab-org/cli](https://gitlab.com/gitlab-org/cli). Skip it unless you actually work on [GitLab](https://gitlab.com/).
+
+**Working rule:** [GitHub Desktop](https://github.com/apps/desktop) and the two CLIs are clients. [GitHub](https://github.com/) in the browser remains enough.
+
+### [Git](https://git-scm.com/) Aliases
+
+An alias is a short name for a [Git](https://git-scm.com/) command, stored in config. It is not a branch, not a tag, and not a [GitHub](https://github.com/) setting. Docs: [Pro Git: Git Aliases](https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases), [git-config](https://git-scm.com/docs/git-config).
+
+#### What an Alias Is
+
+`git st` can mean `git status` if you say so in config. [Git](https://git-scm.com/) expands the alias and runs the real command. The alias does not create a new kind of object. A bad alias can hide a dangerous command, so the starter set below is only status, branch, commit, and checkout.
+
+**Working rule:** an alias is a nickname for a command you already understand.
+
+#### Local vs Global vs System
+
+[git-config](https://git-scm.com/docs/git-config) has three layers. More specific wins.
+
+- **Local** (`--local`) — this repository's `.git/config`. One project.
+- **Global** (`--global`) — your user account on that machine, usually `~/.gitconfig`. Every repository you use there.
+- **System** (`--system`) — every user on the machine. You rarely need this, and it often needs an administrator.
+
+[GitHub](https://github.com/) does not store these files for the web editor. They exist only where [Git](https://git-scm.com/) is installed.
+
+**Working rule:** global is your machine. Local is one clone. Neither is `hello-git` on the website.
+
+#### Useful Starter Aliases
+
+[Pro Git: Git Aliases](https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases) uses four. Run them only after Installing Git. They do not rewrite history.
+
+```text
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+```
+
+After that, `git st` is `git status`. Skip the block if you did not install [Git](https://git-scm.com/).
+
+**Working rule:** four nicknames, all read or ordinary commit commands. No alias for force-push.
+
+#### Aliases Have No [GitHub](https://github.com/) Web UI
+
+There is no Settings page for aliases. [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) does not keep your `~/.gitconfig`. Typing `git st` in [Learn Git Branching](https://learngitbranching.js.org/) is the sandbox's own vocabulary, not your config file.
+
+If a tutorial says "add this alias," it means a machine with [Git](https://git-scm.com/). It does not mean a click on `hello-git`.
+
+**Working rule:** aliases live in a config file on a computer. The browser has nothing to configure.
+
+### Summary: Additional Resources and Reading Materials
+
+We closed the map. [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) is [VS Code](https://code.visualstudio.com/) in the browser. [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) and [GitLens](https://www.gitkraken.com/gitlens) can run there without local [Git](https://git-scm.com/). [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) cannot. [Refined GitHub](https://github.com/refined-github/refined-github) and [Octotree](https://www.octotree.io/) restyle [github.com](https://github.com/). [Chrome DevTools](https://developer.chrome.com/docs/devtools) has no history panel. The references to keep are [Pro Git](https://git-scm.com/book/en/v2), [git documentation](https://git-scm.com/docs), [GitHub Docs](https://docs.github.com/), and [Learn Git Branching](https://learngitbranching.js.org/). [GitLab](https://gitlab.com/), [Bitbucket](https://bitbucket.org/), [Codeberg](https://codeberg.org/), and [Azure Repos](https://azure.microsoft.com/en-us/products/devops/repos) stay pointers. Installing [Git](https://git-scm.com/) ([downloads](https://git-scm.com/downloads/)) is optional. The six local commands are clone, status, add, commit, push, and pull. [GitHub Desktop](https://github.com/apps/desktop), [GitHub CLI](https://cli.github.com/), and [GitLab CLI](https://docs.gitlab.com/editor_extensions/gitlab_cli/) are clients. Aliases are nicknames in a config file, with no [GitHub](https://github.com/) screen. Next, we will walk through Appendix A: Rebase and Rewriting History.
