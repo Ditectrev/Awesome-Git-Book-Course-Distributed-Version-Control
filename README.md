@@ -1973,3 +1973,156 @@ The commits are [Git](https://git-scm.com/) commits. The permission screen, the 
 ### Summary: Collaboration, Access, and Other Git Hosts
 
 We separated access and conversation from the commit graph. A personal repository has an owner and collaborators ([Permission levels for a personal account repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository)). You opened the invite page and sent nothing unless a classmate was actually waiting ([Inviting collaborators to a personal repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository)). Teams and the Read-to-Admin role scale belong to an organization ([About organization teams](https://docs.github.com/en/organizations/organizing-members-into-teams/about-teams), [Repository roles for an organization](https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization)). A ruleset is host policy on branches ([About rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)). Where your plan allows it, `practice-require-pr` targets the default branch and stays **Disabled**, so `main` still accepts a direct commit. `CODEOWNERS` names you as the owner of every path ([About code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)) and does not block merges. You opened an issue, optionally put it on a project, closed the issue, and posted a discussion ([About issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/learning-about-issues/about-issues), [About Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects), [About discussions](https://docs.github.com/en/discussions/collaborating-with-your-community-using-discussions/about-discussions)). [GitLab](https://gitlab.com/), [Bitbucket](https://bitbucket.org/), [Codeberg](https://codeberg.org/), and [Azure Repos](https://azure.microsoft.com/en-us/products/devops/repos) are other places [Git](https://git-scm.com/) lives. We did not log in. Next, we will walk through Common Challenges and Debugging Tips.
+
+## Common Challenges and Debugging Tips
+
+The clicks in the earlier chapters are the repair kit. This chapter is what to do when a commit landed on the wrong branch, a secret landed in a commit, a pull request is too large to read, the default branch is still called `master`, or the merge button will not move. Then a 30-day plan that stays in the browser.
+
+You still do not install [Git](https://git-scm.com/). You still do not force-push, amend, or reset. You still do not paste a real token to watch a scanner catch it.
+
+**What you do:** commit one practice line on `main` by mistake, point a branch at it, and revert it on `main` so the line survives only on that branch. Re-open `NOTES.md` in the old tree. Confirm `hello-git` uses `main`, and confirm `practice-require-pr` is still **Disabled**.
+
+### I Committed to the Wrong Branch
+
+A commit is on the branch that pointed at its parent when you made it. If you chose **Commit directly** to `main`, the new snapshot is on `main`. The web editor cannot lift that commit off `main` and pretend the pointer never moved. Docs: [Managing branches within your repository](https://docs.github.com/en/pull-requests/how-tos/commit-changes/managing-branches-within-your-repository), [git-revert](https://git-scm.com/docs/git-revert), [Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request).
+
+The browser repair adds commits. It does not rewrite:
+
+1. Create a branch at the tip that contains the work you want to keep. That branch name keeps the snapshot reachable after `main` moves on.
+2. Revert the mistaken commit on `main`. [GitHub](https://github.com/) opens a pull request whose diff is the opposite. Merging it puts the undo on `main`. The original commit stays on the Commits page and on the branch you just made.
+
+Cherry-pick, which copies a commit onto another branch as a new SHA, is Appendix B. Do not reach for it here.
+
+**Do this** on `hello-git`:
+
+1. On `main`, edit `README.md`. Append a line: `Wrong branch practice.` Commit directly to `main`. Message: `Add a line on main by mistake`.
+2. With `main` selected, open the branch menu, type `keep-line`, and create that branch from `main`. Both names now point at the mistaken commit.
+3. Switch back to `main`. Open **Commits**, open `Add a line on main by mistake`, and click **Revert**. [GitHub](https://github.com/) opens a pull request. Merge it with **Create a merge commit**.
+4. On `main`, the line is gone. On `keep-line`, open `README.md`. The line is still there.
+
+Leave `keep-line` in the repository. Do not delete it to "clean up." Deleting the branch name would drop an easy pointer. The commit would still exist until nothing referenced it. You do not need that puzzle.
+
+**Working rule:** point a branch at the commit you meant to keep, then revert on the branch that should not have it. `main` gets a new undo commit. The work is still on `keep-line`.
+
+### I Committed a Secret
+
+A secret in a commit is a credential in a snapshot: a password, token, private key, or a real `.env`. The first move is to **revoke or rotate** it so the leaked value stops working. [GitHub](https://github.com/) says the same at the top of [Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). Do that before you think about history.
+
+Deleting the file on the tip does not remove the blob. You already proved it with `NOTES.md`: the tip of `main` has no such file, and the tree for `Add a practice note` still does. A secret is the same shape of object, except the bytes grant access. Issues, pull requests, and discussions on a public repository are scanned too ([Secret scanning](https://docs.github.com/en/code-security/concepts/secret-security/secret-scanning)). Do not paste the value there while you ask for help.
+
+[Push protection](https://docs.github.com/en/code-security/concepts/secret-security/push-protection) can block a push of a known credential pattern to a public repository. It does not catch every password you invent, and it is not a reason to type a live token into the editor.
+
+Taking the blob out of history is a rewrite. The document above uses `git-filter-repo`, then a force-push. Every later SHA changes. Open pull requests need to be merged or closed first, or their review comments detach from the old diff. Branch protection that blocks force-pushes has to be lifted for the cleaned history to land. Anyone with an old clone can push the secret back. Appendix A is that machinery. This chapter does not walk the commands. Revoke first. Most of the time, a dead credential is the outcome you need, and the old commits can stay.
+
+**Do this** without creating a secret:
+
+1. On `main`, open **Commits**, open `Add a practice note`, and open the tree. `NOTES.md` is still in that snapshot. Close it. You are looking at why a delete-commit is not a purge.
+2. Open `.gitignore` on the tip. `.env` is listed. Do not add a file of that name.
+3. If a real secret is already in some repository of yours, revoke it at the provider, then read the removal article's warnings. Do not start the rewrite from this page.
+
+**Working rule:** revoke the credential. A deleted path on `main` leaves the old blob. Rewriting history is Appendix A, after the value is dead.
+
+### The Pull Request Is Too Big to Review
+
+A reviewable pull request is one a reader can finish. Conflicts and History Repair in the Browser already used the small version: one sentence, one conflict. A pull request is too big when the **Files changed** list mixes unrelated work, or when you cannot say what it does in one sentence.
+
+[GitHub](https://github.com/) will still merge a large pull request. The failure is human. Reviewers skip files, comments land on the wrong hunk, and a revert has to undo more than the bad part.
+
+The web editor will not split one commit into several neat commits. Cherry-pick is Appendix B. The browser move is to stop adding to the oversized pull request:
+
+- Mark it **Draft**, or close it if you do not intend to merge it ([Changing the stage of a pull request](https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/changing-the-stage-of-a-pull-request), [Closing a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/closing-a-pull-request)).
+- Open a new branch from current `main` for one of the pieces, commit only that piece, and open a small pull request.
+- Leave the other pieces for their own branches. Do not keep pushing unrelated files onto the draft "so it is all in one place."
+
+**Do this:** open the revert pull request you just merged. **Files changed** should be the README line coming back out. That is the size to copy. If you have some other open pull request whose file list you cannot describe in one sentence, mark that one **Draft** and stop adding commits to it.
+
+**Working rule:** one pull request, one sentence. A draft holds the rest. The web UI does not slice an old commit into a stack of new ones.
+
+### [GitHub](https://github.com/) Still Shows master as the Default Branch
+
+New repositories on [GitHub](https://github.com/) are created with `main` as the default branch ([Set the default branch for newly created repositories](https://github.blog/changelog/2020-08-26-set-the-default-branch-for-newly-created-repositories/)). `hello-git` used that name. A repository that still says `master` was created earlier, or someone renamed the branch, or the account's default name for new repositories was changed.
+
+The default branch is the base [GitHub](https://github.com/) offers for pull requests and the name you land on in the file list ([Changing the default branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/changing-the-default-branch)). Renaming a branch keeps the same commits. [GitHub](https://github.com/) redirects URLs that used the old name, retargets open pull requests, and updates branch protection for that name ([Renaming a branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch)). The account-wide name for repositories you create later is a separate setting ([Managing the default branch name for your repositories](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/managing-the-default-branch-name-for-your-repositories)).
+
+**Do this** on `hello-git`:
+
+1. Open **Settings** → **General**. Under **Default branch**, read the name. It should be `main`.
+2. Stop. Do not switch it to `keep-line` or to `master`. Pull requests use this name as the base.
+3. If a different repository you own still shows `master`, the rename and default-branch articles are the clicks. Do that on that repository when you mean to, not as a tour of `hello-git`.
+
+**Working rule:** `main` on `hello-git` stays the default. `master` on some older repository is a branch name, not a second kind of [Git](https://git-scm.com/).
+
+### The Merge Button Is Blocked
+
+The merge box states why it is waiting. Read that sentence before you change a setting. Docs: [Merging a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request), [About rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets), [Resolving a merge conflict on GitHub](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/resolving-a-merge-conflict-on-github).
+
+Common reasons on `hello-git`:
+
+- **Draft.** **Ready for review** is the switch. A draft is not a merge candidate.
+- **Conflicts.** The same line changed on both sides. **Resolve conflicts** when [GitHub](https://github.com/) can show the file. You did that once, on purpose.
+- **A ruleset or a branch protection rule.** Required reviews, required code owners, or required checks. Your ruleset `practice-require-pr` must stay **Disabled**. An **Active** rule that requires a pull request blocks a direct commit to `main`. An **Active** rule that requires an approving review waits for another person. You cannot approve your own pull request. Do not flip the ruleset to Active to watch the box turn red.
+- **Checks.** `hello-git` has no [GitHub Actions](https://docs.github.com/en/actions) workflow. An empty Checks tab is not a failure. A required check that never runs is a setting you would have added. You did not.
+
+The owner of a personal repository can sometimes merge even when a review is missing. That bypass is on the permission page you already read. It is not the fix. The fix is the sentence in the merge box: finish the draft, resolve the conflict, or turn off a rule you turned on by mistake.
+
+**Do this:** **Settings** → **Rules** → **Rulesets**. Open `practice-require-pr` if it exists and confirm **Disabled**. If the repository never offered rulesets, there is nothing to open. Then open the revert pull request you merged and read the merge box as it was when the button worked: not a draft, no conflict, no required review.
+
+**Working rule:** the merge box names the blocker. `practice-require-pr` stays Disabled. Do not approve yourself, and do not enable a rule to test the lock.
+
+### A 30-Day Browser-Only Practice Plan
+
+Thirty short visits, five a week. Each one uses `hello-git` or a page you already know. None of them install [Git](https://git-scm.com/), rewrite history, commit a secret, or set `practice-require-pr` to Active.
+
+**Week 1 — read history**
+
+1. Open the root commit (`Initial commit`) and note that it has no parent.
+2. On `README.md` at the tip, press `y` and read the SHA in the URL.
+3. Open the tree for `Add a practice note` and open `NOTES.md`.
+4. Open `.gitignore` and read the three patterns.
+5. Open release `v0.1.0` and read the notes. Do not move the tag.
+
+**Week 2 — one small change**
+
+6. Create branch `day-06` from `main`, change nothing, and delete that branch. Empty names do not need to stay.
+7. Create `day-07`, append `Day 07 practice.` to the README, open a pull request, and merge with **Create a merge commit**.
+8. Create `day-08` with another README line, open a pull request, leave one line comment, and close it without merging.
+9. On the merged `day-07` pull request, open **Files changed** and confirm it is one file.
+10. Open **Insights** → **Network** if the graph is offered. Find `keep-line` and `main`.
+
+**Week 3 — access, without locking main**
+
+11. Open `practice-require-pr` and confirm **Disabled**, or confirm the rules page never offered one.
+12. Open `.github/CODEOWNERS` and check the username.
+13. Open the closed practice issue. Leave it closed.
+14. Open the practice discussion. Leave it.
+15. **Settings** → **General** → **Default branch** reads `main`.
+
+**Week 4 — other people's graphs, read only**
+
+16. Open [this book](https://github.com/Ditectrev/Awesome-Git-Book-Course-Distributed-Version-Control) and read the Commits page. Do not open a pull request.
+17. On your [Spoon-Knife](https://github.com/octocat/Spoon-Knife) fork, open **Sync fork**. Sync only if [GitHub](https://github.com/) says the fork is behind. Do not open a pull request to `octocat`.
+18. Open [Learn Git Branching](https://learngitbranching.js.org/) and replay **Branching in Git**. Stop before **Rebase Introduction**.
+19. Use [GitHub](https://github.com/) search for your username and open one repository you forgot about. Read it. Change nothing you do not own.
+20. On `hello-git`, open a commit that has two parents and name which side is `main`.
+
+**Week 5 — say what the snapshot is**
+
+21. On a new branch, change one README word, commit, and write a subject that names the word. Merge with **Squash and merge**.
+22. Compare the squash commit's parent count with the merge commit from day 07. One parent versus two.
+23. Open `v0.1.0` and the tip of `main`. They differ. That is what a tag is for. Do not retag `v0.1.0`.
+24. Read [Ignoring files](https://docs.github.com/en/get-started/git-basics/ignoring-files) once, beside your own `.gitignore`.
+25. Read the first screen of [Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository). Stop when the commands start.
+
+**Week 6 — the merge box, calmly**
+
+26. Open **Collaborators** and confirm you did not invite a stranger.
+27. Create `day-27`, change one line, open a pull request, and read the merge box before you merge. Then merge with **Rebase and merge**.
+28. Open that pull request's commits. The SHAs on `main` are not the SHAs from the head branch. You saw this in Branches and Merging.
+29. Open `keep-line` and `main` side by side in two browser tabs. The practice line is only on `keep-line`.
+30. Write down three SHAs you can still open: the root commit, `Add a practice note`, and the commit `v0.1.0` points at.
+
+**Working rule:** one small click a day, on a repository you own or a page that is public. The graph you already built is the practice material.
+
+### Summary: Common Challenges and Debugging Tips
+
+We repaired a mistake by adding commits. A line committed on `main` by mistake now lives on `keep-line`, and a revert pull request took it off `main` ([git-revert](https://git-scm.com/docs/git-revert), [Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request)). A secret is revoked first. `NOTES.md` is still in the old tree, which is why a delete on the tip is not a purge ([Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)). A pull request you cannot describe in one sentence goes back to draft. The next change gets its own branch. `hello-git` stays on `main` ([Changing the default branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/changing-the-default-branch)). The merge box names the blocker, and `practice-require-pr` stays **Disabled**. Thirty browser visits reuse this repository. Next, we will walk through Additional Resources and Reading Materials.
