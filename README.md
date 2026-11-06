@@ -2366,3 +2366,130 @@ If a tutorial says "add this alias," it means a machine with [Git](https://git-s
 ### Summary: Additional Resources and Reading Materials
 
 We closed the map. [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) is [VS Code](https://code.visualstudio.com/) in the browser. [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) and [GitLens](https://www.gitkraken.com/gitlens) can run there without local [Git](https://git-scm.com/). [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) cannot. [Refined GitHub](https://github.com/refined-github/refined-github) and [Octotree](https://www.octotree.io/) restyle [github.com](https://github.com/). [Chrome DevTools](https://developer.chrome.com/docs/devtools) has no history panel. The references to keep are [Pro Git](https://git-scm.com/book/en/v2), [git documentation](https://git-scm.com/docs), [GitHub Docs](https://docs.github.com/), and [Learn Git Branching](https://learngitbranching.js.org/). [GitLab](https://gitlab.com/), [Bitbucket](https://bitbucket.org/), [Codeberg](https://codeberg.org/), and [Azure Repos](https://azure.microsoft.com/en-us/products/devops/repos) stay pointers. Installing [Git](https://git-scm.com/) ([downloads](https://git-scm.com/downloads/)) is optional. The six local commands are clone, status, add, commit, push, and pull. [GitHub Desktop](https://github.com/apps/desktop), [GitHub CLI](https://cli.github.com/), and [GitLab CLI](https://docs.gitlab.com/editor_extensions/gitlab_cli/) are clients. Aliases are nicknames in a config file, with no [GitHub](https://github.com/) screen. Next, we will walk through Appendix A: Rebase and Rewriting History.
+
+## Appendix A: Rebase and Rewriting History
+
+A merge commit joins two lines and keeps every SHA. A rebase copies your commits onto a new base and gives the copies new SHAs. [GitHub](https://github.com/)'s **Rebase and merge** button already did the safe version of that on `hello-git`. This appendix is what that button is, what an interactive rebase would change, and why replacing published history is a different act from an ordinary commit.
+
+You still do not install [Git](https://git-scm.com/) for this page. You still do not force-push `hello-git`. You still do not move the tag `v0.1.0`.
+
+**What you do:** open the commit **Rebase and merge** already wrote on `main`, and complete **Rebase Introduction** in [Learn Git Branching](https://learngitbranching.js.org/). The sandbox is the only place you run a rebase. Stop when that level ends.
+
+Canonical pages: [git-rebase](https://git-scm.com/docs/git-rebase), [Pro Git: Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing), [About merge methods on GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github), [git-push](https://git-scm.com/docs/git-push).
+
+### Why Rebase Exists
+
+A branch that started from an older `main` does not contain the commits `main` gained later. A merge commit records both tips as parents. The SHAs on your branch stay. The graph shows the join.
+
+A rebase answers a different question: what would these changes look like if I had started from today's `main`? [Git](https://git-scm.com/) copies each of your commits onto that new base. The trees carry the same changes. The copies are new commits, so the SHAs differ. Your old commits still exist until nothing points at them. The branch name moves to the copies. Docs: [git-rebase](https://git-scm.com/docs/git-rebase), [Pro Git: Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing).
+
+That is why a rebased line looks straight. There is no second parent. It is also why anyone who already fetched the old SHAs now has a different history under the same branch name.
+
+**Working rule:** rebase replays commits onto a new base and mints new SHAs. Merge keeps the old SHAs and adds a join.
+
+### Rebase and Merge on [GitHub](https://github.com/)
+
+You already clicked this in Branches and Merging, on the pull request from `rebase-line`. Docs: [About merge methods on GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github), [Merging a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/merging-a-pull-request).
+
+**Rebase and merge** copies each commit from the head branch onto the base, then fast-forwards the base to those copies. [GitHub](https://github.com/) always writes new SHAs, including when the branch was already a straight line on top of `main`. Subjects stay. There is no merge commit and no two-parent dot. The button does not reorder commits, squash them, or edit messages. That would be an interactive rebase, which this button is not.
+
+It also does not force-push the head branch. The new commits land on `main`. The old SHAs remain on `rebase-line` until that branch is deleted. Deleting the branch name drops an easy pointer. It does not rewrite `main`.
+
+**Do this:** on `hello-git`, open **Commits** on `main` and open `Add a rebase practice line`. Confirm one parent, and that the SHA is not the one you noted on `rebase-line` before the merge. If you also did day 27 of the practice plan, that **Rebase and merge** is the same shape. You do not need another pull request.
+
+**Working rule:** the button copies the branch onto `main` as new commits. It is not an interactive rebase, and it is not a force-push.
+
+### Visual Rebase in [Learn Git Branching](https://learngitbranching.js.org/)
+
+Earlier chapters stopped before **Rebase Introduction**. This is the level those pages saved. The sandbox draws the copy. It does not touch `hello-git` and it does not install [Git](https://git-scm.com/). Source: [pcottle/learnGitBranching](https://github.com/pcottle/learnGitBranching).
+
+**Do this:**
+
+1. Open [learngitbranching.js.org](https://learngitbranching.js.org/).
+2. In the Introduction sequence, complete **Rebase Introduction**. Watch the commits you replayed appear as new dots on top of the other branch. The old dots lose the branch name.
+3. Stop when that level is finished. Do not continue into cherry-pick. Cherry-pick is Appendix B. Do not type the sandbox's commands into a terminal against `hello-git`.
+
+**Working rule:** the picture of a rebase is the sandbox. The repository you publish to is still [GitHub](https://github.com/).
+
+### Interactive Rebase, Squash, and Fixup
+
+An interactive rebase is a rebase that stops and shows a todo list before it copies the commits. The local command is `git rebase -i`. Docs: [git-rebase](https://git-scm.com/docs/git-rebase) (Interactive mode), [Pro Git: Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing). [GitHub](https://github.com/) has no form for that list. **Rebase and merge** does not open it. **Squash and merge** is a different button: it folds the whole pull request into one new commit on the base, without showing you a todo list.
+
+The words on the list are the lesson:
+
+- **pick** — copy this commit as it is.
+- **reword** — copy it with a new message.
+- **squash** — fold this commit into the one before it, and keep a chance to edit the message.
+- **fixup** — fold this commit into the one before it, and throw away this commit's message.
+- **drop** — do not copy this commit.
+
+The result is still new SHAs for every copied commit, plus one SHA for each squash or fixup. The branch name moves to that new line. Anyone who had the old line is now looking at different commits.
+
+[Learn Git Branching](https://learngitbranching.js.org/) teaches the todo list in **Juggling Commits**, after its cherry-pick levels. Leave that level until Appendix B. Reading the five words is enough here.
+
+**Working rule:** interactive rebase edits the story of a branch and rewrites its SHAs. The web UI will not open the todo list. **Squash and merge** is one new commit, not that list.
+
+### When Not to Rewrite Published History
+
+[Pro Git: Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing) states the rule: do not rebase commits that you have pushed and that other people may have based work on. The copies are new objects. Their old parents, their old SHAs, and any tag that pointed at an old SHA stay where they were. A branch name can be moved to the copies. A tag you already published, such as `v0.1.0`, must not be moved. People who downloaded that zip still have the old snapshot. Moving the tag would make one name mean two different commits.
+
+Do not rewrite:
+
+- `main` on `hello-git`, or `main` on a repository other people use.
+- A branch that has an open pull request with review comments you have not agreed to redo.
+- Any commit reachable from a release you already published.
+- History in order to hide a secret. Revoke the credential first. Erasing the blob rewrites every descendant SHA, breaks open pull-request comments, and can be pushed back from an old clone ([Removing sensitive data from a repository](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)). That procedure is not this lab.
+
+A private feature branch that only you have fetched is the case people mean by "rewrite before anyone else has it." Once you have pushed it and someone else has pulled it, it is published.
+
+**Working rule:** published SHAs stay. New work is a new commit. A rewrite is a new set of SHAs under an old name, and other people's clones will not match.
+
+### git push --force
+
+Push sends your branch to the host. A normal push is refused when the remote branch has commits your push does not contain. That refusal is the host protecting those commits. Docs: [git-push](https://git-scm.com/docs/git-push).
+
+`--force` tells the host to move the branch name anyway. Commits that were on the remote branch and are not in your push drop off that name. They can become hard to find. On `main`, that is how a teammate's commit disappears from the branch everyone shares. The web editor has no such button. You will not run this against `hello-git`. There is no exercise that types it.
+
+**Working rule:** a normal push adds commits. `--force` moves the branch name backward or sideways and can drop commits from that name.
+
+#### git push --force-with-lease
+
+`--force-with-lease` is still a force-push. [git-push](https://git-scm.com/docs/git-push) documents the difference: the push is refused if the remote branch tip is not the tip your remote-tracking branch recorded. If a teammate pushed and you have not fetched that update, the lease fails and their commits stay. If you have fetched and the tip matches what you last saw, the lease succeeds and the branch name still moves. People who already pulled your old SHAs still have the old history.
+
+The lease is a check against a stale view of the remote. It is not a promise that the rewrite is safe to publish.
+
+**Working rule:** `--force-with-lease` refuses the push when the remote has moved since your last fetch. The commits you replace are still replaced.
+
+#### When Force-Pushing Is Allowed vs Rewriting Published History
+
+A force-push is allowed, in the narrow sense, on a branch only you use, after you rebased or squashed that branch, and before anyone else has based work on those SHAs. You are updating your own unpublished line. You say so in the pull request if one is already open, because the review comments were attached to the old SHAs.
+
+It is a rewrite of published history when the branch is `main`, a release tag, or any name other people have already fetched. Their next pull will not be a fast-forward. Work they based on the old SHAs has to be redone. Do not force-push `hello-git`'s `main` to tidy the practice commits. The revert, the merge commits, and `v0.1.0` are supposed to stay reachable.
+
+**Working rule:** your unshared feature branch can be replaced. A branch or tag anyone else might have is published. Leave it.
+
+#### Branch Rules That Block Force Pushes
+
+A branch protection rule blocks force-pushes unless someone turns that allowance on. Docs: [About protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches). A ruleset can block them too ([Available rules for rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets)). The push is then rejected. That rejection is the rule working.
+
+`practice-require-pr` on `hello-git` stays **Disabled**, and you do not add a force-push rule just to watch a rejection. On a repository at work, do not switch the rule off so a rewrite can land. The sensitive-data article lists that switch as one of the costs of purging history. It is a reason to stop, not a step to perform.
+
+**Working rule:** a block on force-push is the host refusing to move the branch name. Leave the block in place.
+
+#### No Force-Push Button in the [GitHub](https://github.com/) Web Editor
+
+The file editor can add a commit. It cannot replace `main` with a different history. There is no **Force push** control on the Code tab, the commit page, or the pull request.
+
+The nearby controls are different:
+
+- **Rebase and merge** writes new commits on the base branch. You already used it.
+- **Update branch** merges the base into your head when [GitHub](https://github.com/) can do that cleanly.
+- **Update with rebase** rewrites the head branch's commits. You did not click it in Conflicts and History Repair in the Browser. Do not click it now.
+
+If a local tutorial ends in a force-push, it is talking to a machine with [Git](https://git-scm.com/). It is not a click you missed.
+
+**Working rule:** the browser adds commits. It does not offer `--force`. **Update with rebase** is the control you still leave alone.
+
+### Summary: Appendix A: Rebase and Rewriting History
+
+Rebase copies commits onto a new base and assigns new SHAs ([git-rebase](https://git-scm.com/docs/git-rebase), [Pro Git: Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)). **Rebase and merge** on [GitHub](https://github.com/) already did that for `Add a rebase practice line`: one parent, a new SHA, no todo list ([About merge methods on GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github)). **Rebase Introduction** in [Learn Git Branching](https://learngitbranching.js.org/) is the picture. Interactive rebase is the todo list — pick, reword, squash, fixup, drop — and the website has no form for it. Published history stays, including `main` and `v0.1.0`. `--force` moves a branch name even when that drops commits ([git-push](https://git-scm.com/docs/git-push)). `--force-with-lease` only checks that the remote tip is the one you last fetched. Branch protection and rulesets can reject both ([About protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)). The web editor has no force-push button. Next, we will walk through Appendix B: Cherry-pick, Reset, Reflog, and Bisect.

@@ -2887,6 +2887,154 @@
 ---
 
 * Next: Appendix A: Rebase and Rewriting History <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Appendix A: Rebase and Rewriting History
+
+---
+
+* Merge keeps every SHA and adds a join <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Rebase copies commits onto a new base and mints new SHAs <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No install. No force-push of `hello-git`. Do not move `v0.1.0` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Re-open the commit Rebase and merge already wrote <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Complete Rebase Introduction in the sandbox, then stop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Why Rebase Exists
+
+---
+
+* A merge commit records both tips. The old SHAs stay <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A rebase asks what those changes would be on today's base <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The copies are new commits. The branch name moves to them <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Working rule: rebase mints new SHAs. Merge keeps the old ones and adds a join <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Rebase and Merge on GitHub
+
+---
+
+* Copies each head commit onto the base, then fast-forwards <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* GitHub always writes new SHAs. Subjects stay. One parent <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* It does not reorder, squash, or edit messages <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* It does not force-push the head branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Open `Add a rebase practice line` on `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One parent. The SHA is not the one you noted on `rebase-line` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Visual Rebase in Learn Git Branching
+
+---
+
+* Introduction sequence: Rebase Introduction <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* New dots on the other branch. The branch name leaves the old dots <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Stop there. Cherry-pick is Appendix B <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not type the sandbox's commands against `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Interactive Rebase, Squash, and Fixup
+
+---
+
+* `git rebase -i` shows a todo list. GitHub has no form for it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* pick, reword, squash, fixup, drop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Every copied commit gets a new SHA <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Squash and merge is one new commit, not that list <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Juggling Commits in the sandbox comes after cherry-pick. Leave it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### When Not to Rewrite Published History
+
+---
+
+* Do not rebase commits other people may have based work on <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not move `v0.1.0`. One tag must not mean two commits <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not rewrite history to hide a secret. Revoke it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* An unshared feature branch is the narrow case. Once someone else fetched it, it is published <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### git push --force
+
+---
+
+* A normal push is refused when the remote has commits you do not have <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `--force` moves the branch name anyway <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Commits that drop off that name can be hard to find <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You do not run this against `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### git push --force-with-lease
+
+---
+
+* Still a force-push <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Refused if the remote tip is not the one your remote-tracking branch recorded <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* People who already pulled the old SHAs still have the old history <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### When Force-Pushing Is Allowed vs Rewriting Published History
+
+---
+
+* Your unshared feature branch, before anyone else based work on it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Not `main`, not a release tag, not a branch other people have fetched <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not force-push `hello-git` to tidy the practice commits <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Branch Rules That Block Force Pushes
+
+---
+
+* Branch protection blocks force-pushes unless someone allows them <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A ruleset can block them too. The rejection is the rule working <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not disable `hello-git`'s rules, and do not add one just to watch it fail <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### No Force-Push Button in the GitHub Web Editor
+
+---
+
+* The editor adds a commit. It cannot replace `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Rebase and merge writes new commits on the base <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Update with rebase rewrites the head branch. Leave it unclicked <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Appendix A: Rebase and Rewriting History
+
+---
+
+* Rebase copies commits and assigns new SHAs. The button on `main` already did the safe version <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The sandbox shows the picture. The todo list has no web form <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `--force` moves a branch name. `--force-with-lease` only checks your last fetch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The browser has no force-push button <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Appendix B: Cherry-pick, Reset, Reflog, and Bisect <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
