@@ -2696,3 +2696,62 @@ Do not split `hello-git` into folders to practice this. It is already one projec
 ### Summary: Appendix D: Submodules, Subtrees, and Monorepos
 
 One repository is the default. A submodule is a gitlink: a tree entry that stores another repository's commit SHA, plus a `.gitmodules` file for the URL ([Pro Git: Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules), [gitsubmodules](https://git-scm.com/docs/gitsubmodules)). On [git/git](https://github.com/git/git) you opened that file and followed `sha1collisiondetection` to a commit in another repository. A subtree merge copies the other files in as ordinary blobs ([Pro Git: Subtree Merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_subtree_merges)). A monorepo is directories in one history, which is what `hello-git` already is. We did not add a submodule to it. Next, we will walk through Appendix E: Git LFS, Sparse Checkout, and Large Repos.
+
+## Appendix E: [Git LFS](https://git-lfs.com/), Sparse Checkout, and Large Repos
+
+[Git](https://git-scm.com/) stores every version of every file it tracks. That is the right model for the text in `hello-git`. It is a poor model for a movie, a dataset, or a dependency folder. This appendix is how large bytes are kept beside the repository, how a local clone can skip paths, and what [GitHub](https://github.com/) does when a repository grows. You still do not install [Git LFS](https://git-lfs.com/). You still do not commit a large file.
+
+**What you do:** open a file on `hello-git` and confirm it is the text you wrote, not a pointer. Read the size limits. Leave the repository small.
+
+Canonical pages: [About large files on GitHub](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github), [About Git Large File Storage](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage), [git-sparse-checkout](https://git-scm.com/docs/git-sparse-checkout), [partial clone](https://git-scm.com/docs/partial-clone).
+
+### [Git LFS](https://git-lfs.com/) on [Git](https://git-scm.com/) Hosts
+
+[Git LFS](https://git-lfs.com/) (Git Large File Storage) keeps a small text file in the [Git](https://git-scm.com/) object database and stores the bytes somewhere else. The text file is a pointer. [GitHub](https://github.com/) stores that pointer as an ordinary blob and keeps the large object on its LFS storage. Docs: [About Git Large File Storage](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage), project: [git-lfs/git-lfs](https://github.com/git-lfs/git-lfs).
+
+A pointer looks like this. Do not commit one into `hello-git`.
+
+```text
+version https://git-lfs.github.com/spec/v1
+oid sha256:<64 hex digits>
+size <number of bytes>
+```
+
+The `oid` line is a hash of the large file. It is not the commit SHA you have been reading in `/blob/` URLs. Someone who clones without [Git LFS](https://git-lfs.com/) installed gets the pointer and not the bytes ([Collaboration with Git Large File Storage](https://docs.github.com/en/repositories/working-with-files/managing-large-files/collaboration-with-git-large-file-storage)). A pull request may show the pointer instead of rendering the file. [GitHub Pages](https://docs.github.com/en/pages) cannot use [Git LFS](https://git-lfs.com/). Template repositories cannot either.
+
+[GitHub](https://github.com/) rejects an LFS object over 5 GB. Smaller limits depend on the plan. Pushing LFS objects to a fork counts against the parent repository's quotas, not the fork owner's. You can choose whether the zip and tarball [GitHub](https://github.com/) builds include the LFS objects or only the pointers. The page above is where that choice is documented. `v0.1.0` on `hello-git` has no LFS objects, so the source archive is the real tree.
+
+Installing the client is [Installing Git Large File Storage](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage). Skip it. This book has no large file to track.
+
+**Working rule:** [Git LFS](https://git-lfs.com/) puts a pointer in [Git](https://git-scm.com/) and the bytes next to it. Without the client, you cloned the pointer.
+
+### Sparse Checkout and Partial Clone
+
+A normal clone copies the objects and then writes every file in the current commit into the working tree. Two local options shrink that:
+
+- **Sparse checkout** chooses which directories appear in the working tree. The other paths stay in the object database and out of the folders you see. Docs: [git-sparse-checkout](https://git-scm.com/docs/git-sparse-checkout).
+- **Partial clone** asks the host not to send some objects yet. A filter such as `blob:none` delays file contents until a checkout needs them. Docs: [partial clone](https://git-scm.com/docs/partial-clone).
+
+Neither is a button on [GitHub](https://github.com/). The website still shows the whole tree of the commit you open. A sparse working tree on a laptop does not hide files from anyone else, and it does not delete history. `hello-git` is a handful of text files. Hiding one of them would only make the practice harder to read.
+
+**Working rule:** sparse checkout limits the working tree. Partial clone delays objects. The commit you published is still the full snapshot.
+
+### What Breaks When a Repo Gets Huge
+
+[GitHub](https://github.com/) states the limits in [About large files on GitHub](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github):
+
+- A file added in the browser can be no larger than 25 MiB.
+- A file larger than 50 MiB draws a warning from [Git](https://git-scm.com/). The push can still succeed. The bytes are then in history, which is the cost you already saw with a deleted `NOTES.md`.
+- Repositories are best kept under 1 GB. Under 5 GB is the strong recommendation. Past that, [GitHub](https://github.com/) may ask you to shrink the project because clones and maintenance get slow.
+- [Git](https://git-scm.com/) is a poor place for large database dumps. A package manager is the right place for dependencies. That is why `node_modules/` was an ignore pattern, even though `hello-git` has no such folder.
+- A binary you want people to download can be a release asset instead of a blob in every commit. Each asset still has a size limit. We did not attach one to `v0.1.0`.
+
+What actually breaks is time and clarity. Every clone downloads the history of those blobs. The diff of a giant file is not reviewable in the browser. A later delete does not remove the old blob. [Git LFS](https://git-lfs.com/) moves the bytes out of that history only for files you track with it **before** they are committed as normal blobs. Converting a file that is already in history is a rewrite. Appendix A is why that is not a casual cleanup.
+
+**Do this:** on `hello-git`, open `README.md` from the Code tab. The body is the sentences you wrote. It does not begin with `version https://git-lfs.github.com/spec/v1`. Close it. Do not upload a file to measure the 25 MiB cap.
+
+**Working rule:** keep source in [Git](https://git-scm.com/), and keep it small. A warning at 50 MiB is the signal to stop, not a quota to fill.
+
+### Summary: Appendix E: [Git LFS](https://git-lfs.com/), Sparse Checkout, and Large Repos
+
+[Git LFS](https://git-lfs.com/) stores a pointer blob in the repository and the large file elsewhere ([About Git Large File Storage](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage)). A clone without the client receives the pointer. [GitHub](https://github.com/) warns above 50 MiB, refuses a browser upload above 25 MiB, and rejects an LFS object above 5 GB ([About large files on GitHub](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)). Sparse checkout and partial clone shrink a local working copy or delay blobs ([git-sparse-checkout](https://git-scm.com/docs/git-sparse-checkout), [partial clone](https://git-scm.com/docs/partial-clone)). They do not change the snapshot on the host. `README.md` on `hello-git` is still plain text. Next, we will walk through Appendix F: Signing, SSH, Hooks, and CI Checks.
