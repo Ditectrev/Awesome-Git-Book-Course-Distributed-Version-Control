@@ -3198,6 +3198,83 @@
 ---
 
 * Next: Appendix D: Submodules, Subtrees, and Monorepos <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Appendix D: Submodules, Subtrees, and Monorepos
+
+---
+
+* `hello-git` is one repository. This appendix is the other shapes <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No install. Do not nest a second repository inside `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Read `.gitmodules` in git/git, then click `sha1collisiondetection` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You leave that repository and land on one commit of another <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### When One Repo Is Not Enough
+
+---
+
+* A second history is for its own releases, its own access, or a pin <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A submodule stores a pointer. A subtree copies the files. A monorepo is directories <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `hello-git` needs none of them <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Submodules on Git Hosts
+
+---
+
+* A gitlink is a tree entry that stores a commit SHA, mode `160000` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The pin is that SHA, not their default branch today <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `.gitmodules` is the address book. The gitlink is the pin <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A normal clone does not fill the directory until you ask <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* On GitHub the folder is a link to the other repository at that commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A private submodule behind a public parent is a link others cannot open <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not add `.gitmodules` to `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Subtrees as an Alternative
+
+---
+
+* The other project's files become ordinary blobs in a subdirectory <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No gitlink. One clone already has the bytes <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Updating is a merge. Their history, or a squashed copy, joins yours <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* There is no GitHub button for it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Monorepo Layouts Without Extra Tooling
+
+---
+
+* Several projects, one repository, split by directory <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Git has no monorepo command. A folder is the layout <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* One tag names the whole tree. One collaborator can read every directory <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `hello-git` stays one project <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Appendix D: Submodules, Subtrees, and Monorepos
+
+---
+
+* Submodule: a pinned foreign commit. Subtree: their files in your history <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You followed `sha1collisiondetection` out of git/git to one SHA <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A monorepo is directories. `hello-git` already is one repository <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Appendix E: Git LFS, Sparse Checkout, and Large Repos <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>

@@ -2631,3 +2631,68 @@ The host's copy is usually a **bare** repository: objects and refs, and no worki
 ### Summary: Appendix C: [Git](https://git-scm.com/) Internals
 
 [Git](https://git-scm.com/) stores blobs, trees, commits, and annotated tags, each named by a hash of its contents ([Git data model](https://git-scm.com/docs/gitdatamodel), [Pro Git: Git Objects](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)). On `hello-git` the `/commit/`, `/tree/`, and `/blob/` URLs all carry the commit's SHA. [GitHub](https://github.com/) walks the tree to show a file ([Getting permanent links to files](https://docs.github.com/en/repositories/working-with-files/using-files/getting-permanent-links-to-files)). Branches and tags are refs ([Pro Git: Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)). HEAD is the checkout's current ref. Packed refs are the same names in one file ([git-pack-refs](https://git-scm.com/docs/git-pack-refs)). Packfiles compress objects without changing hashes ([Pro Git: Packfiles](https://git-scm.com/book/en/v2/Git-Internals-Packfiles)). Garbage collection removes unreachable objects on that copy, after a wait ([git-gc](https://git-scm.com/docs/git-gc)). The host keeps the objects and the refs. The website is how you read them. Next, we will walk through Appendix D: Submodules, Subtrees, and Monorepos.
+
+## Appendix D: Submodules, Subtrees, and Monorepos
+
+`hello-git` is one repository. Sometimes a project needs another project's files at a fixed snapshot, or several projects that share one history. This appendix is those three shapes. You still do not install [Git](https://git-scm.com/). You still do not add a second repository inside `hello-git`.
+
+**What you do:** open [git/git](https://github.com/git/git), read `.gitmodules`, and click `sha1collisiondetection`. You land in a different repository at one commit. Then confirm `hello-git` has no `.gitmodules`.
+
+Canonical pages: [Pro Git: Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules), [git-submodule](https://git-scm.com/docs/git-submodule), [gitmodules](https://git-scm.com/docs/gitmodules), [gitsubmodules](https://git-scm.com/docs/gitsubmodules), [Pro Git: Subtree Merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_subtree_merges).
+
+### When One Repo Is Not Enough
+
+One repository is the right default. Use a second one when the other history has its own releases, its own access list, or a version you want to pin while your code moves. A library you vendor by copying files in by hand will drift, and you will not know which upstream commit you copied.
+
+Three tools, and only one of them is a [Git](https://git-scm.com/) object:
+
+- A **submodule** records someone else's commit inside your tree. Your repository does not contain their files. It contains a pointer.
+- A **subtree** merge copies their files into a directory of your repository. After that, the bytes are ordinary blobs in your history.
+- A **monorepo** is a layout: several projects, one repository, no pointer and no extra merge strategy. Directories are enough.
+
+`hello-git` needs none of them. A README, a `.gitignore`, and a [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file are one project.
+
+**Working rule:** start with one repository. Add a pointer or a second history only when a pin or a separate access list is the requirement.
+
+### Submodules on [Git](https://git-scm.com/) Hosts
+
+A submodule is a **gitlink**: a tree entry that stores a commit SHA instead of a blob. The mode is `160000`. That SHA is a commit in another repository. Your commit records "this path means that exact commit," not "this path means their default branch today." Docs: [Pro Git: Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules), [gitsubmodules](https://git-scm.com/docs/gitsubmodules).
+
+The parent also commits a `.gitmodules` file. It is an ordinary blob. It lists the path and the URL so a clone knows where to fetch that SHA. The pin is the gitlink in the tree. The file is the address book. If they disagree, the commit's gitlink is what [Git](https://git-scm.com/) checks out.
+
+A clone does not fill those directories unless you ask (`git clone --recurse-submodules`, or `git submodule update --init` afterward). The files are not in the parent pack. Moving the pin is a new commit in the parent: you change which SHA the gitlink stores. Their new commits do not appear in your tree until you record a new SHA.
+
+On [GitHub](https://github.com/), the directory looks like a link. Clicking it opens the other repository at that commit. You need access to the other repository. A public parent that pins a private submodule is a link other people cannot open.
+
+**Do this** (read only; do not fork, and do not open a pull request):
+
+1. Open [git/git](https://github.com/git/git). This is the [Git](https://git-scm.com/) source, not `hello-git`.
+2. Open [`.gitmodules`](https://github.com/git/git/blob/master/.gitmodules). Find the path `sha1collisiondetection` and the URL of [sha1collisiondetection](https://github.com/cr-marcstevens/sha1collisiondetection).
+3. Back on the file list, click `sha1collisiondetection`. The address bar leaves `git/git` and opens the other repository. The end of the URL is a commit SHA, not a branch name. That SHA is the pin this commit of [Git](https://git-scm.com/) recorded. It can move in a later commit of `git/git`. The old URL still names the old pin.
+4. Open `hello-git`. There is no `.gitmodules`. Do not add one.
+
+**Working rule:** a submodule pins a foreign commit. The parent stores the SHA and the URL. The files stay in the other repository.
+
+### Subtrees as an Alternative
+
+A subtree puts the other project in a subdirectory of **this** repository. The files are normal trees and blobs. There is no gitlink and no `.gitmodules`. History from the other project can be merged in with the subtree merge strategy. Docs: [Pro Git: Subtree Merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_subtree_merges).
+
+People also mean the `git subtree` helper that ships in [Git](https://git-scm.com/)'s contrib directory. It adds, pulls, and splits that subdirectory. It is not a button on [GitHub](https://github.com/), and it is not a fifth object type. After the merge, a clone of the parent already has the files. You do not run a second checkout. The cost is a noisier history: their commits, or a squashed copy of them, now live in your graph. Updating is another merge, not a one-line SHA change.
+
+**Working rule:** a subtree copies bytes into your history. A submodule stores a SHA. Pick the copy when you want one clone to be complete. Pick the pin when you want their history to stay theirs.
+
+### Monorepo Layouts Without Extra Tooling
+
+A monorepo is several projects in one repository, split by directory. [Git](https://git-scm.com/) does not have a monorepo command. A folder named `docs/` beside a folder named `app/` is already the layout. One commit can touch both. One pull request can review both. [CODEOWNERS](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) can name different owners for different paths. You already committed that file for the whole of `hello-git`.
+
+What you give up is the pin. Everything moves on the same branch. A release tag names the whole tree, not one subdirectory. Access is the repository's access. You cannot hide one directory from a collaborator who can read the repo.
+
+What you avoid is the submodule dance: no second clone, no SHA that forgot to move, no empty directory because someone cloned without `--recurse-submodules`.
+
+Do not split `hello-git` into folders to practice this. It is already one project in one repository. A second project belongs in a second repository you create on purpose, or in a directory you add when the second project is real.
+
+**Working rule:** directories are the monorepo. Submodules and subtrees are extra machinery. `hello-git` stays one tree.
+
+### Summary: Appendix D: Submodules, Subtrees, and Monorepos
+
+One repository is the default. A submodule is a gitlink: a tree entry that stores another repository's commit SHA, plus a `.gitmodules` file for the URL ([Pro Git: Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules), [gitsubmodules](https://git-scm.com/docs/gitsubmodules)). On [git/git](https://github.com/git/git) you opened that file and followed `sha1collisiondetection` to a commit in another repository. A subtree merge copies the other files in as ordinary blobs ([Pro Git: Subtree Merges](https://git-scm.com/book/en/v2/Git-Tools-Advanced-Merging#_subtree_merges)). A monorepo is directories in one history, which is what `hello-git` already is. We did not add a submodule to it. Next, we will walk through Appendix E: Git LFS, Sparse Checkout, and Large Repos.
