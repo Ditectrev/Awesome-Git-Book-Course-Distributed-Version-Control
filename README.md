@@ -2493,3 +2493,71 @@ If a local tutorial ends in a force-push, it is talking to a machine with [Git](
 ### Summary: Appendix A: Rebase and Rewriting History
 
 Rebase copies commits onto a new base and assigns new SHAs ([git-rebase](https://git-scm.com/docs/git-rebase), [Pro Git: Rebasing](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)). **Rebase and merge** on [GitHub](https://github.com/) already did that for `Add a rebase practice line`: one parent, a new SHA, no todo list ([About merge methods on GitHub](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github)). **Rebase Introduction** in [Learn Git Branching](https://learngitbranching.js.org/) is the picture. Interactive rebase is the todo list — pick, reword, squash, fixup, drop — and the website has no form for it. Published history stays, including `main` and `v0.1.0`. `--force` moves a branch name even when that drops commits ([git-push](https://git-scm.com/docs/git-push)). `--force-with-lease` only checks that the remote tip is the one you last fetched. Branch protection and rulesets can reject both ([About protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)). The web editor has no force-push button. Next, we will walk through Appendix B: Cherry-pick, Reset, Reflog, and Bisect.
+
+## Appendix B: Cherry-pick, Reset, Reflog, and Bisect
+
+These four commands copy one commit, move a branch name, remember where that name used to point, or search history for a bad snapshot. [GitHub](https://github.com/) already gave you the published undo: **Revert**. The other three have no button on `hello-git`. The pictures live in [Learn Git Branching](https://learngitbranching.js.org/).
+
+You still do not install [Git](https://git-scm.com/) to finish this appendix. You still do not reset `main`. You still do not force-push.
+
+**What you do:** complete **Cherry-pick Intro** and **Reversing Changes in Git** in the sandbox. Then stop. Reflog and bisect are names and limits. They are not clicks on `hello-git`.
+
+Canonical pages: [git-cherry-pick](https://git-scm.com/docs/git-cherry-pick), [git-reset](https://git-scm.com/docs/git-reset), [Pro Git: Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified), [git-reflog](https://git-scm.com/docs/git-reflog), [git-bisect](https://git-scm.com/docs/git-bisect), [Pro Git: Debugging with Git](https://git-scm.com/book/en/v2/Git-Tools-Debugging-with-Git).
+
+### Cherry-pick a Single Commit
+
+Cherry-pick copies the change from one commit onto the branch you are on. The result is a new commit. Its parent is the tip you were on, not the parent of the commit you copied. The SHA is new. The message can stay. Docs: [git-cherry-pick](https://git-scm.com/docs/git-cherry-pick).
+
+That is different from a merge, which joins two lines, and from a rebase, which replays a whole range. Cherry-pick is one commit (or a list you name), applied where you are now. `keep-line` still holds `Wrong branch practice.` and `main` does not. Cherry-pick is how a local [Git](https://git-scm.com/) would copy that one snapshot onto `main` without merging the whole branch. We will not do it there. The line stays on `keep-line` on purpose.
+
+A merge commit has two parents. Cherry-picking it requires you to say which parent is the mainline (`-m` in the docs). Skip merge commits. Copy an ordinary one-parent commit, or make the change again in a small pull request.
+
+[GitHub](https://github.com/) has no cherry-pick button on the commit page. A one-file pull request is the browser's way to land one change.
+
+**Do this** in the sandbox only:
+
+1. Open [learngitbranching.js.org](https://learngitbranching.js.org/).
+2. Open **Moving and Staging Work** and complete **Cherry-pick Intro**. A commit from another branch appears on yours as a new dot.
+3. Stop before **Interactive Rebase Intro**. That level is the todo list from Appendix A. You may play it after this appendix if you want the picture. Do not type `git cherry-pick` against `hello-git`.
+
+**Working rule:** cherry-pick copies one commit's change and writes a new SHA. It does not move the old commit, and the website will not do it for you.
+
+### Revert vs Reset
+
+You have already reverted. **Revert** adds a commit whose diff is the opposite of an older one. The old SHA stays on the Commits page. That is the right undo for anything you have published. Docs: [git-revert](https://git-scm.com/docs/git-revert), [Reverting a pull request](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/reverting-a-pull-request).
+
+**Reset** moves a branch name. It does not by itself write the undo as a new snapshot. Docs: [git-reset](https://git-scm.com/docs/git-reset), [Pro Git: Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified). Where the name lands, three modes differ:
+
+- **`--soft`** moves the branch. The index and the working tree keep the changes, so they look staged.
+- **`--mixed`** is the default. It moves the branch and resets the index. The working tree still has the edits, unstaged.
+- **`--hard`** moves the branch and makes the index and the working tree match that commit. Edits that were not committed are discarded.
+
+After a reset, commits that no longer have a branch pointing at them drop off the history you see by walking parents. They are not always deleted from the object store that minute. Publishing the moved branch, when the remote still has the old tip, is a force-push. Appendix A is why you do not do that to `main`.
+
+**Do this** in the sandbox only. In **Ramping Up**, complete **Reversing Changes in Git**. The level uses reset on a branch that was not pushed, and revert on a branch that was. Leave `hello-git` alone. `main`, `keep-line`, and `v0.1.0` stay where they are.
+
+**Working rule:** revert adds a commit and is safe to push. Reset moves a name. On a published branch, reset plus push is a rewrite.
+
+### Reflog as a Safety Net
+
+The reflog is a local log of where `HEAD` and the branch names have pointed. Docs: [git-reflog](https://git-scm.com/docs/git-reflog). Each time you commit, switch, reset, or rebase, the previous position is recorded on that machine. `HEAD@{1}` means the position before the latest move. It is not a parent pointer. Parents are the graph. The reflog is the diary of the names.
+
+The diary is not pushed. [GitHub](https://github.com/) does not show it. The Commits page lists what branches can still reach. A commit you reset away can be absent there and still named in your reflog until the log expires. That is how a local reset is undoable: you read the old SHA from the reflog and point the branch back, before the entry ages out. There is no reflog on the website, so a reset you published with a force-push is not waiting in the GitHub UI to be undone. Other people's clones never received your reflog.
+
+We do not reset `hello-git`, so we do not open a reflog for it. The sandbox's own undo control, if you use it while experimenting, is the website's button. It is not `git reflog`.
+
+**Working rule:** the reflog remembers where your local names pointed. It stays on that computer. The host's commit list is only what the branches can still reach.
+
+### Bisect to Find a Bad Commit
+
+Bisect searches a range of commits for the first bad snapshot. You mark one commit good and one commit bad. [Git](https://git-scm.com/) checks out a commit in the middle. You test, mark that one good or bad, and it halves the range again. Docs: [git-bisect](https://git-scm.com/docs/git-bisect), [Pro Git: Debugging with Git](https://git-scm.com/book/en/v2/Git-Tools-Debugging-with-Git).
+
+The session has its own commands: start, mark good, mark bad, and a final reset that ends the search and puts you back. That final reset ends bisect. It is not the reset in the previous section, and it is not a license to move `main`.
+
+[GitHub](https://github.com/) has no bisect button. [Learn Git Branching](https://learngitbranching.js.org/) has no bisect level in the sequences this book uses. You do not run a search on `hello-git`. What you can see is the shape of the question: the root commit is a known-good snapshot, and a later commit on `main` is somewhere in the range you would search if a line of text had gone wrong. The Commits page is the list bisect would halve. Opening it is enough.
+
+**Working rule:** bisect halves history until one commit is the first bad one. It needs a machine with [Git](https://git-scm.com/) and a test you can repeat. The website will not check out the middle commit for you.
+
+### Summary: Appendix B: Cherry-pick, Reset, Reflog, and Bisect
+
+Cherry-pick copies one commit's change onto your branch as a new SHA ([git-cherry-pick](https://git-scm.com/docs/git-cherry-pick)). **Cherry-pick Intro** is that picture, and `hello-git` does not gain the command. Revert adds an undo commit and is what you push ([git-revert](https://git-scm.com/docs/git-revert)). Reset moves the branch name, and `--soft`, `--mixed`, and `--hard` decide what happens to the index and the working tree ([git-reset](https://git-scm.com/docs/git-reset), [Pro Git: Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)). **Reversing Changes in Git** shows reset only on an unpushed sandbox branch. The reflog is the local diary of those name moves ([git-reflog](https://git-scm.com/docs/git-reflog)). [GitHub](https://github.com/) does not have one. Bisect halves the range between a good commit and a bad one ([git-bisect](https://git-scm.com/docs/git-bisect)). There is no button for it. Next, we will walk through Appendix C: Git Internals.
