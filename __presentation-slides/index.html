@@ -3275,6 +3275,74 @@
 ---
 
 * Next: Appendix E: Git LFS, Sparse Checkout, and Large Repos <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Appendix E: Git LFS, Sparse Checkout, and Large Repos
+
+---
+
+* Git stores every version of every tracked file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Fine for `hello-git`. A poor fit for a movie, a dataset, or a dependency folder <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No Git LFS install. No large file committed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Git LFS on Git Hosts
+
+---
+
+* The repository keeps a small pointer. The bytes live in LFS storage <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The pointer starts with `version https://git-lfs.github.com/spec/v1` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The `oid` is a hash of the large file, not the commit SHA in the URL <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Without the client, a clone receives the pointer only <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* An LFS object over 5 GB is rejected <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* GitHub Pages and template repositories cannot use Git LFS <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `v0.1.0` has no LFS objects, so the source archive is the real tree <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Sparse Checkout and Partial Clone
+
+---
+
+* Sparse checkout chooses which directories appear in the working tree <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Partial clone can delay blobs until checkout needs them <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Neither is a GitHub button. The website still shows the whole commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not hide files in `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### What Breaks When a Repo Gets Huge
+
+---
+
+* Browser upload: 25 MiB. Over 50 MiB: Git warns, and the push can still succeed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Prefer under 1 GB. Under 5 GB is the strong recommendation <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A deleted big file stays in old commits, same as `NOTES.md` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* LFS helps only for files tracked that way before they are normal blobs <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Open `README.md`. It is your sentences, not an LFS pointer <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not upload a file to measure the cap <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Appendix E: Git LFS, Sparse Checkout, and Large Repos
+
+---
+
+* Pointer in Git, bytes beside it. A clone without LFS gets the pointer <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Sparse checkout and partial clone shrink a local copy, not the published snapshot <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `hello-git` stays small text <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Appendix F: Signing, SSH, Hooks, and CI Checks <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
