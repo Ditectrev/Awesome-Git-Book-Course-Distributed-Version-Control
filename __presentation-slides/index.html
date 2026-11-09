@@ -3035,6 +3035,91 @@
 ---
 
 * Next: Appendix B: Cherry-pick, Reset, Reflog, and Bisect <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Appendix B: Cherry-pick, Reset, Reflog, and Bisect
+
+---
+
+* Copy one commit, move a branch name, remember the old tip, or search for a bad snapshot <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* GitHub's published undo is still Revert <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No install. No reset of `main`. No force-push <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Sandbox: Cherry-pick Intro, then Reversing Changes in Git <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Reflog and bisect stay names. They are not clicks on `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Cherry-pick a Single Commit
+
+---
+
+* Copies one commit's change onto the branch you are on <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The result is a new SHA. The parent is your current tip <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Not a merge, and not a rebase of a whole range <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A merge commit needs a chosen mainline parent. Skip those <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Moving and Staging Work: complete Cherry-pick Intro <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Stop before Interactive Rebase Intro <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `keep-line` stays the only home of the practice line <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Revert vs Reset
+
+---
+
+* Revert adds a commit. The old SHA stays. Safe to push <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Reset moves the branch name <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `--soft` keeps changes staged. `--mixed` unstages them. `--hard` discards uncommitted edits <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Publishing that moved branch is a force-push <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Ramping Up: complete Reversing Changes in Git <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Reset only the unpushed sandbox branch. Revert the one that was pushed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `main`, `keep-line`, and `v0.1.0` do not move <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Reflog as a Safety Net
+
+---
+
+* A local diary of where HEAD and the branch names pointed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `HEAD@{1}` is the previous position, not a parent <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* It is not pushed. GitHub does not show it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The Commits page is only what branches can still reach <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Bisect to Find a Bad Commit
+
+---
+
+* Mark one commit good and one bad. Git checks out the middle <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Each answer halves the range <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Ending the session is not a reset of `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No GitHub button, and no bisect level in the sandbox sequences we use <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Appendix B: Cherry-pick, Reset, Reflog, and Bisect
+
+---
+
+* Cherry-pick writes a new SHA. The sandbox is the only place you run it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Revert adds a commit. Reset moves a name <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Reflog is local. Bisect needs a machine and a test <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Appendix C: Git Internals <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
