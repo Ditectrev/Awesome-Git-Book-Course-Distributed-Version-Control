@@ -3120,6 +3120,84 @@
 ---
 
 * Next: Appendix C: Git Internals <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Appendix C: Git Internals
+
+---
+
+* Four object types, plus the names that point at them <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No install. No cleanup command on `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Open a commit, its tree, one file, and the `v0.1.0` tag <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The SHA in the address bar is the commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Objects: Blobs, Trees, Commits, and Tags
+
+---
+
+* A blob is file bytes, with no filename <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A tree is a directory: name, mode, and a hash <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A commit points at one tree, plus parents, author, and message <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* An annotated tag is an object. A lightweight tag is only a name <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* `/commit/`, `/tree/`, and `/blob/` all show the commit's SHA <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* GitHub walks the tree to find the blob. The blob's own hash is not in the URL <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `NOTES.md` is still in the old tree. The release notes are not a Git object <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Refs, HEAD, and Packed Refs
+
+---
+
+* `main` is `refs/heads/main`. `v0.1.0` is `refs/tags/v0.1.0` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Moving a branch writes a new target. It does not copy the objects <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* HEAD usually points at a branch. A detached HEAD points at a commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Packed refs are the same names in one file <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Packfiles and Garbage Collection
+
+---
+
+* A packfile stores many objects, sometimes as deltas <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The hashes do not change <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Garbage collection drops objects no ref and no reflog can reach, after a wait <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* It is not how you remove a published secret <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### How a Host Stores What You Push
+
+---
+
+* A web commit writes a blob, a tree, and a commit, then moves `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A push sends missing objects, then asks to move the ref <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The host copy is usually bare: objects and refs, no working tree <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The website, the zip, and a clone read that same database <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Appendix C: Git Internals
+
+---
+
+* Blobs, trees, commits, and annotated tags, each named by a hash <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Branches and tags are names. HEAD is the checkout <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Packfiles save space. Unreachable objects can wait, then go, on that copy only <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Appendix D: Submodules, Subtrees, and Monorepos <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
