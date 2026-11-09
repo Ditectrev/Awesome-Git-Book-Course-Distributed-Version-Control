@@ -2561,3 +2561,73 @@ The session has its own commands: start, mark good, mark bad, and a final reset 
 ### Summary: Appendix B: Cherry-pick, Reset, Reflog, and Bisect
 
 Cherry-pick copies one commit's change onto your branch as a new SHA ([git-cherry-pick](https://git-scm.com/docs/git-cherry-pick)). **Cherry-pick Intro** is that picture, and `hello-git` does not gain the command. Revert adds an undo commit and is what you push ([git-revert](https://git-scm.com/docs/git-revert)). Reset moves the branch name, and `--soft`, `--mixed`, and `--hard` decide what happens to the index and the working tree ([git-reset](https://git-scm.com/docs/git-reset), [Pro Git: Reset Demystified](https://git-scm.com/book/en/v2/Git-Tools-Reset-Demystified)). **Reversing Changes in Git** shows reset only on an unpushed sandbox branch. The reflog is the local diary of those name moves ([git-reflog](https://git-scm.com/docs/git-reflog)). [GitHub](https://github.com/) does not have one. Bisect halves the range between a good commit and a bad one ([git-bisect](https://git-scm.com/docs/git-bisect)). There is no button for it. Next, we will walk through Appendix C: Git Internals.
+
+## Appendix C: [Git](https://git-scm.com/) Internals
+
+The pages you have been clicking are a view of a small database. [Git](https://git-scm.com/) stores four kinds of objects and a set of names that point at them. This appendix names those parts. You still do not install [Git](https://git-scm.com/). You still do not run a cleanup command on `hello-git`.
+
+**What you do:** open one commit, its tree, one file, and the `v0.1.0` tag. Say which object each page is showing. The address bar's SHA is the commit. The blob's own hash stays inside the database.
+
+Canonical pages: [Git data model](https://git-scm.com/docs/gitdatamodel), [Pro Git: Git Objects](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects), [Pro Git: Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References), [Pro Git: Packfiles](https://git-scm.com/book/en/v2/Git-Internals-Packfiles).
+
+### Objects: Blobs, Trees, Commits, and Tags
+
+Every object is named by a hash of its own bytes. Change a byte and the hash changes. The same bytes always produce the same hash, so two paths with the same content share one object. Docs: [Pro Git: Git Objects](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects), [Git data model](https://git-scm.com/docs/gitdatamodel). The identifiers on `hello-git` are 40 hexadecimal characters. [Git](https://git-scm.com/)'s [hash function transition](https://git-scm.com/docs/hash-function-transition) is why a longer identifier can appear in other repositories. It is still a hash of the object, not a different kind of object.
+
+Four types:
+
+- A **blob** is file bytes. It does not store the filename or the permissions.
+- A **tree** is a directory listing: a name, a mode, and the hash of a blob or of another tree.
+- A **commit** stores one tree hash, the parent commits (none, for the root), the author, the committer, and the message. The commit hash covers all of that. A new message is a new commit even when the tree is unchanged.
+- An **annotated tag** is an object of its own: it points at a commit (or another object), and it stores a tagger and a message. A **lightweight tag** is not an object. It is only a name, covered in the next section. The release page on [GitHub](https://github.com/) is the host's notes on top of a tag. It is not a fifth [Git](https://git-scm.com/) object.
+
+[GitHub](https://github.com/) shows the objects through three URL shapes you already used. The SHA in those URLs is the **commit**, or a branch name that means the commit at the tip. [GitHub](https://github.com/) walks that commit's tree to find the blob. The blob's own hash is not what `y` writes into the address bar. Docs: [Getting permanent links to files](https://docs.github.com/en/repositories/working-with-files/using-files/getting-permanent-links-to-files).
+
+| Page | URL | What the SHA in the URL is |
+| --- | --- | --- |
+| One snapshot | `/commit/<sha>` | The commit object |
+| The file list at that snapshot | `/tree/<sha>` | Still that commit. The tree object has a different hash, and this page does not print it |
+| One file | `/blob/<sha>/<path>` | Still that commit. The page shows the blob the tree lists at `<path>` |
+
+On a machine with [Git](https://git-scm.com/), `git cat-file` prints an object by its own hash ([git-cat-file](https://git-scm.com/docs/git-cat-file)). You do not need it. The website is enough to see the three pages.
+
+**Do this** on `hello-git`:
+
+1. Open **Commits** and open `Add a practice note`. The URL contains `/commit/` and a 40-character SHA. That is the commit object. It has a parent. The root commit, `Initial commit`, does not.
+2. Change `/commit/` to `/tree/` and keep the same SHA. The page lists `README.md` and `NOTES.md`. You are looking through the commit at its tree.
+3. Open `NOTES.md`. The URL contains `/blob/` and the same commit SHA. The body is the blob. The tip of `main` no longer has this path. The blob is still reachable from this older commit.
+4. Open the `v0.1.0` release. The tag name selects a commit. The title and the notes are the [GitHub](https://github.com/) release, not a second copy of the files.
+
+**Working rule:** a blob is bytes, a tree is names, a commit points at one tree, and an annotated tag points at a commit. The SHA in a [GitHub](https://github.com/) file URL is the commit you walked from.
+
+### Refs, HEAD, and Packed Refs
+
+A **ref** is a name that points at a commit, or at a tag object. Docs: [Pro Git: Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References). Branch names live under `refs/heads/`. Tag names live under `refs/tags/`. `main` is `refs/heads/main`. `v0.1.0` is `refs/tags/v0.1.0`. Moving a branch does not copy objects. It writes a new target into the name. That is what a commit on `main` does, and what a reset would do.
+
+**HEAD** is the name of the checkout. In a local clone it usually points at a branch (`refs/heads/main`), which points at a commit. That indirection is why committing moves the branch and HEAD follows. A detached HEAD points straight at a commit. The next commit does not move any branch unless you create one. [GitHub](https://github.com/) has no checkout. The branch menu is the ref the website is showing. The default branch is the ref a clone checks out first.
+
+A loose ref is one small file per name. When a repository has many names, [Git](https://git-scm.com/) can pack them into a single `packed-refs` file ([git-pack-refs](https://git-scm.com/docs/git-pack-refs)). The names still resolve to the same commits. Packing refs is storage. It is not a rebase and not a new history. You will not see that file on [GitHub](https://github.com/).
+
+**Working rule:** a branch or a tag is a name. HEAD is which name the checkout is using. The objects stay put until the name moves.
+
+### Packfiles and Garbage Collection
+
+A young repository stores each object as its own compressed file. As the history grows, [Git](https://git-scm.com/) packs many objects into **packfiles**. A packfile can store a later blob as a delta against an earlier one. Docs: [Pro Git: Packfiles](https://git-scm.com/book/en/v2/Git-Internals-Packfiles). The hashes do not change. A packfile is a suitcase. It is not a different commit.
+
+**Garbage collection** packs objects and deletes ones nothing can reach ([git-gc](https://git-scm.com/docs/git-gc), [Pro Git: Maintenance and Data Recovery](https://git-scm.com/book/en/v2/Git-Internals-Maintenance-and-Data-Recovery)). Reachable means a ref can walk to the object, or the local reflog still names it. An unreachable object can sit on disk until the grace period ends. It is not a promise that the bytes are gone, and it is not a promise about any other clone. [GitHub](https://github.com/) runs its own maintenance. You do not run `git gc` for this book. Deleting a file on `main`, or deleting a branch name, is not this command. A secret is revoked at the provider. Collection is not how you scrub a published blob.
+
+**Working rule:** packfiles save space. Garbage collection drops objects no name can reach, after a wait, on that copy of the database. Hashes of reachable objects stay.
+
+### How a Host Stores What You Push
+
+A commit in the web editor is [GitHub](https://github.com/) writing a blob, a tree, and a commit, then moving `refs/heads/main` to that commit. A push from a laptop sends the objects the host does not have yet, then asks the host to move the ref. A normal push is refused when the ref has commits the push does not contain. That refusal is the host keeping those objects on the branch. `--force` is the request to move the name anyway. Appendix A is why you do not send it.
+
+The host's copy is usually a **bare** repository: objects and refs, and no working tree of edited files. The website, the release zip, and a clone are three readers of that same database. A clone copies the objects and the refs, then builds a working tree from the commit the default branch names. Your `hello-git` page is not a second history beside the objects. It is a view of them.
+
+**Do this:** on one commit page, click through to the tree and then to a file. Three pages, one commit SHA. Then open `v0.1.0` and notice the tag is a name for a commit, while the release text is only on [GitHub](https://github.com/).
+
+**Working rule:** the host stores objects and moves refs. Every button you have used wrote one of those two things, or read them back.
+
+### Summary: Appendix C: [Git](https://git-scm.com/) Internals
+
+[Git](https://git-scm.com/) stores blobs, trees, commits, and annotated tags, each named by a hash of its contents ([Git data model](https://git-scm.com/docs/gitdatamodel), [Pro Git: Git Objects](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects)). On `hello-git` the `/commit/`, `/tree/`, and `/blob/` URLs all carry the commit's SHA. [GitHub](https://github.com/) walks the tree to show a file ([Getting permanent links to files](https://docs.github.com/en/repositories/working-with-files/using-files/getting-permanent-links-to-files)). Branches and tags are refs ([Pro Git: Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)). HEAD is the checkout's current ref. Packed refs are the same names in one file ([git-pack-refs](https://git-scm.com/docs/git-pack-refs)). Packfiles compress objects without changing hashes ([Pro Git: Packfiles](https://git-scm.com/book/en/v2/Git-Internals-Packfiles)). Garbage collection removes unreachable objects on that copy, after a wait ([git-gc](https://git-scm.com/docs/git-gc)). The host keeps the objects and the refs. The website is how you read them. Next, we will walk through Appendix D: Submodules, Subtrees, and Monorepos.
