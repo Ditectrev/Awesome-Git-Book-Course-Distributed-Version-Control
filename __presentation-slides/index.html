@@ -3343,6 +3343,78 @@
 ---
 
 * Next: Appendix F: Signing, SSH, Hooks, and CI Checks <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Appendix F: Signing, SSH, Hooks, and CI Checks
+
+---
+
+* A signature, an SSH key, a laptop script, and a check are four different guards <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No new key. The ruleset stays Disabled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### SSH Keys and Deploy Keys
+
+---
+
+* The private key stays on the machine. The public key is what GitHub stores <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* An account key can reach every repo your user can reach <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A deploy key is one repository. It is read-only unless you grant write <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The private key never goes in the repository <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Settings → SSH and GPG keys. Read the list. Add nothing <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* HTTPS on the Code button is still the address this book uses <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Signed Commits and Verified Badges
+
+---
+
+* GitHub checks GPG, SSH, and S/MIME signatures <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Web-editor commits are signed by GitHub and show Verified <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Vigilant mode would mark your unsigned commits Unverified. Leave it off <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A badge is not a review of the diff <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Client Hooks vs Host Rulesets
+
+---
+
+* A hook is a script in `.git/hooks` on one clone. It is not pushed <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A ruleset runs on GitHub for everyone <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `practice-require-pr` stays Disabled <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* There is no hook button in the web editor <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### CI Checks as Merge Gates
+
+---
+
+* A check reports pass or fail. An empty tab meant no program was configured <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* A green check means that program finished. It does not review the README <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Add `.github/workflows/practice.yml`. It echoes one line on push to `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not require the check. If Actions is disabled, stop <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Appendix F: Signing, SSH, Hooks, and CI Checks
+
+---
+
+* No SSH key and no deploy key were added <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Web commits show Verified. Vigilant mode stays off <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Hooks are local. The ruleset is disabled. The practice check does not gate merges <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+* Next: Appendix G: Restore, Stash, and Clean Working Trees <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
