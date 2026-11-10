@@ -2831,3 +2831,105 @@ jobs:
 ### Summary: Appendix F: Signing, SSH, Hooks, and CI Checks
 
 An SSH key pair splits a secret on your machine from a public key on the account ([About SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh)). A deploy key is that idea for one repository ([Managing deploy keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys)). You added neither. Web-editor commits are signed by [GitHub](https://github.com/) and show **Verified** ([About commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)). Vigilant mode stays off. Hooks are local scripts ([githooks](https://git-scm.com/docs/githooks)). The ruleset on `hello-git` stays **Disabled**. `.github/workflows/practice.yml` runs an echo on [GitHub Actions](https://docs.github.com/en/actions) and does not gate merges ([Status checks](https://docs.github.com/en/pull-requests/reference/status-checks)). Next, we will walk through Appendix G: Restore, Stash, and Clean Working Trees.
+
+## Appendix G: Restore, Stash, and Clean Working Trees
+
+Everything you published on `hello-git` is a commit. This appendix is the work that is **not** a commit yet: an edit you throw away, a file you unstage, a change you set aside, and untracked files you delete. [GitHub](https://github.com/) can throw away an edit in the web editor. `git restore`, `git stash`, and `git clean` are the local commands. You still do not install [Git](https://git-scm.com/). You still do not delete a committed file to practice them.
+
+**What you do:** type a line in the web editor and cancel it, so `main` never receives it. Then put the same kind of line on a branch named `wip-aside`, confirm `main` does not have it, and delete that branch without merging.
+
+Canonical pages: [Editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files), [git-restore](https://git-scm.com/docs/git-restore), [git-stash](https://git-scm.com/docs/git-stash), [git-clean](https://git-scm.com/docs/git-clean).
+
+### Discarding Uncommitted Edits in the [GitHub](https://github.com/) Web Editor
+
+The web editor holds a draft until you commit. That draft is not a blob in the repository, not a branch, and not a stash. **Cancel changes** drops it. Docs: [Editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files).
+
+[github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) keeps uncommitted edits in browser storage, and its Source Control view can discard a change. Closing the tab can drop them too. The required click is the web editor, not [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor).
+
+**Do this:**
+
+1. On `hello-git`, on `main`, open `README.md` and edit it. Add a last line: `Throwaway edit.`
+2. Do not commit. Click **Cancel changes**.
+3. Open `README.md` again. The line is absent. The Commits page did not grow.
+
+**Working rule:** cancel throws away a draft. A commit is the only edit `main` keeps.
+
+### git restore
+
+`git restore` copies file contents back into the working tree or the index. It does not move the branch, and it does not create a commit. Docs: [git-restore](https://git-scm.com/docs/git-restore). There is no **Restore** button on [GitHub](https://github.com/).
+
+#### Working Tree vs Staged
+
+The **working tree** is the files you can edit. The **index** (the staging area) is the snapshot you are about to commit. Core Principles of [Git](https://git-scm.com/) named both.
+
+- `git restore path` puts the index's copy of that path back into the working tree. Unstaged edits to that file disappear.
+- `git restore --staged path` copies `HEAD` into the index for that path. The file leaves the staging area. Edits in the working tree stay.
+
+The web editor has one step. **Commit changes** writes the file you are looking at. You do not stage a subset of it. [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) is where **Changes** and **Staged Changes** appear side by side. You do not have to open it for this appendix.
+
+**Working rule:** the working tree is what you see. The index is what the next commit will store. `git restore` rewinds one of those, and not the branch name.
+
+#### restore vs checkout
+
+`git checkout` used to do two jobs: switch branches, and copy a file out of a commit. That double duty is why a typo could overwrite edits. [Git](https://git-scm.com/) split the jobs. Docs: [git-switch](https://git-scm.com/docs/git-switch), [git-checkout](https://git-scm.com/docs/git-checkout), [git-restore](https://git-scm.com/docs/git-restore).
+
+- `git switch` moves `HEAD` to a branch.
+- `git restore` copies file contents.
+- `git checkout` still does both. Prefer the two newer commands when you have [Git](https://git-scm.com/) installed. On [GitHub](https://github.com/) the branch menu is `git switch`. **Cancel changes** is the only restore.
+
+**Working rule:** switch changes which commit you are on. Restore changes file contents. Checkout is the older command that did both.
+
+#### restore vs revert
+
+You have already reverted. **Revert** adds a commit whose diff undoes an older commit. The old SHA stays on the Commits page. Docs: [git-revert](https://git-scm.com/docs/git-revert).
+
+**Restore** never adds that commit. It only rewrites uncommitted state, or the index, to match some tree. Use restore for "I have not committed this yet." Use revert for "this is already on `main`." Reset, from Appendix B, is the third verb: it moves the branch name. Do not reset `hello-git`.
+
+**Working rule:** restore forgets an uncommitted edit. Revert records an undo as a new snapshot. Reset moves a branch.
+
+### git stash
+
+A stash is a local commit that no branch points at, plus a stack of those commits on your machine. Docs: [git-stash](https://git-scm.com/docs/git-stash). It is how you set aside edits, switch branches, and bring the edits back later. [GitHub](https://github.com/) does not receive a stash when you push. The website has no stash list.
+
+#### stash push, pop, apply, drop, and list
+
+- `git stash push` (or `git stash`) saves your tracked edits and clears them from the working tree and the index.
+- `git stash list` shows the stack. `stash@{0}` is the newest. That name is not a parent pointer.
+- `git stash apply` puts a stash back and leaves it in the list.
+- `git stash pop` puts it back and then drops it.
+- `git stash drop` deletes one entry. A dropped stash is not a revert. The easy name is gone. The reflog on that machine may still mention it for a while. Appendix B is that diary. The host never had the stash.
+
+You will not run these. There is no local working tree in this course.
+
+**Working rule:** push sets aside. Apply keeps the copy. Pop and drop throw the stash entry away. None of them appear on [GitHub](https://github.com/).
+
+#### Stashing Untracked Files
+
+By default, stash takes tracked edits only. An untracked file stays in the working tree. `git stash push --include-untracked` takes untracked files too. `--all` also takes ignored files. An ignored `.env` would then sit in the local stash object. That is still a copy of a secret on disk. Do not stash a secret to hide it, and do not commit it. The `.gitignore` in `hello-git` only tells [Git](https://git-scm.com/) to skip untracked paths. It does not scrub a stash.
+
+**Working rule:** a normal stash ignores untracked files. Including them stores those bytes locally. Ignored secrets stay untracked and unstashed.
+
+#### Stash vs a WIP Branch
+
+A work-in-progress branch is the same idea with a name you can push. The commit is an ordinary commit. Anyone you invite can see it. You can open a pull request, or you can delete the branch and leave `main` alone. A stash cannot be reviewed on [GitHub](https://github.com/).
+
+**Do this:**
+
+1. From `main`, create a branch named `wip-aside`.
+2. On that branch only, add `Set aside.` at the end of `README.md`. Commit. Message: `Set a line aside`.
+3. Switch to `main`. The line is not there.
+4. Delete `wip-aside`. Do not merge it. `main` stays as it was. You dropped the aside on purpose.
+
+**Working rule:** a branch you can push is the browser's stash. Delete it without merging when the aside was never meant for `main`.
+
+### git clean
+
+`git clean` deletes untracked files from the working tree. It does not touch files [Git](https://git-scm.com/) is already tracking. Docs: [git-clean](https://git-scm.com/docs/git-clean). A dry run (`-n`) lists what would go. `-f` actually deletes. `-d` includes untracked directories. `-x` also deletes ignored files, which is how a clean command removes build output and, with it, a local `.env`.
+
+Nothing in that list is a commit, so there is no revert for it. [GitHub](https://github.com/) has no **Clean** button. Deleting a file in the web editor and committing is a new snapshot, which is the opposite of clean: clean never makes a commit. You do not run `git clean` for this book.
+
+**Working rule:** clean deletes untracked files on one machine. It does not change history. It also does not forgive a secret you already committed.
+
+### Summary: Appendix G: Restore, Stash, and Clean Working Trees
+
+Uncommitted work is not history yet. **Cancel changes** drops a draft in the web editor ([Editing files](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files)). `git restore` rewinds the working tree or the index and does not move the branch ([git-restore](https://git-scm.com/docs/git-restore)). `git switch` is the branch change. `git checkout` is the older command that did both ([git-switch](https://git-scm.com/docs/git-switch), [git-checkout](https://git-scm.com/docs/git-checkout)). Revert is still the undo you publish ([git-revert](https://git-scm.com/docs/git-revert)). `git stash` sets tracked edits aside on your machine ([git-stash](https://git-scm.com/docs/git-stash)). You used a branch, `wip-aside`, and deleted it without merging. `git clean` deletes untracked files and has no button ([git-clean](https://git-scm.com/docs/git-clean)). The table of contents ends here. `hello-git` is the history you kept.

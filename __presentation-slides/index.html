@@ -3415,6 +3415,128 @@
 ---
 
 * Next: Appendix G: Restore, Stash, and Clean Working Trees <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+## Appendix G: Restore, Stash, and Clean Working Trees
+
+---
+
+* This appendix is work that is not a commit yet <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The web editor can drop a draft. Restore, stash, and clean are local <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No install. Do not delete a committed file to practice <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Discarding Uncommitted Edits in the GitHub Web Editor
+
+---
+
+* A draft is not a blob, a branch, or a stash <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Add `Throwaway edit.` and click Cancel changes <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `main` does not gain a commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### git restore
+
+---
+
+* Copies file contents back into the working tree or the index <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Does not move the branch. Does not create a commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* GitHub has no Restore button <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Working Tree vs Staged
+
+---
+
+* The working tree is the files you edit. The index is the next commit <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `git restore path` drops unstaged edits <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `git restore --staged path` unstages and keeps the working-tree edits <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The web editor commits the file you are looking at, in one step <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### restore vs checkout
+
+---
+
+* `git switch` changes branches. `git restore` changes file contents <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `git checkout` still does both. That is why the newer pair exists <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* On GitHub the branch menu is switch. Cancel changes is restore <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### restore vs revert
+
+---
+
+* Restore rewrites uncommitted state. It adds no snapshot <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Revert adds a commit. You already did that on `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Reset moves the branch name. Do not reset `hello-git` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### git stash
+
+---
+
+* A local commit that no branch points at <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Push does not upload it. GitHub has no stash list <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### stash push, pop, apply, drop, and list
+
+---
+
+* `push` sets tracked edits aside. `list` shows the stack <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `apply` puts a stash back and keeps it. `pop` puts it back and drops it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `drop` deletes the entry. It is not a revert <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Stashing Untracked Files
+
+---
+
+* A normal stash leaves untracked files in place <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `--include-untracked` takes them. `--all` also takes ignored files <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Do not stash a secret to hide it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+#### Stash vs a WIP Branch
+
+---
+
+* A branch is a stash you can push and review <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Create `wip-aside`, commit `Set aside.` there, switch back to `main` <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Delete the branch. Do not merge it <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### git clean
+
+---
+
+* Deletes untracked files. Tracked files stay <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* `-n` lists them. `-f` deletes. `-x` also deletes ignored files <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* No commit, so no revert. No Clean button on GitHub <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* You do not run it for this book <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+
+---
+
+### Summary: Appendix G: Restore, Stash, and Clean Working Trees
+
+---
+
+* Cancel changes drops a draft. Restore rewinds files, not the branch <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Revert is the published undo. A WIP branch is the browser's stash <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* Clean deletes untracked files on one machine <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
+* The table of contents ends here. `hello-git` is the history you kept <!-- .element: class="fragment custom blur highlight-current-blue fade-up" -->
         </textarea>
       </section>
     </div>
