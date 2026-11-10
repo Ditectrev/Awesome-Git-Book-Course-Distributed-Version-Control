@@ -2755,3 +2755,79 @@ What actually breaks is time and clarity. Every clone downloads the history of t
 ### Summary: Appendix E: [Git LFS](https://git-lfs.com/), Sparse Checkout, and Large Repos
 
 [Git LFS](https://git-lfs.com/) stores a pointer blob in the repository and the large file elsewhere ([About Git Large File Storage](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-git-large-file-storage)). A clone without the client receives the pointer. [GitHub](https://github.com/) warns above 50 MiB, refuses a browser upload above 25 MiB, and rejects an LFS object above 5 GB ([About large files on GitHub](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)). Sparse checkout and partial clone shrink a local working copy or delay blobs ([git-sparse-checkout](https://git-scm.com/docs/git-sparse-checkout), [partial clone](https://git-scm.com/docs/partial-clone)). They do not change the snapshot on the host. `README.md` on `hello-git` is still plain text. Next, we will walk through Appendix F: Signing, SSH, Hooks, and CI Checks.
+
+## Appendix F: Signing, SSH, Hooks, and CI Checks
+
+A commit on [GitHub](https://github.com/) can be signed, a clone can use an SSH key, a laptop can run a script before a commit, and a pull request can wait for a check. None of those are required to read `hello-git`. This appendix is what each one actually guards. You still do not generate a key. You still do not turn `practice-require-pr` on.
+
+**What you do:** open your SSH keys page and add nothing. Open a commit made in the web editor and read its verification badge. Add one [GitHub Actions](https://docs.github.com/en/actions) workflow that prints a line, and leave it unrequired.
+
+Canonical pages: [About SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh), [Managing deploy keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys), [About commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification), [githooks](https://git-scm.com/docs/githooks), [Status checks](https://docs.github.com/en/pull-requests/reference/status-checks).
+
+### SSH Keys and Deploy Keys
+
+SSH is a way to authenticate to [GitHub](https://github.com/) from a machine, without typing a personal access token on every push. Docs: [About SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh). You generate a key pair. The **private** key stays on that machine. The **public** key is what you add to your [GitHub](https://github.com/) account ([Adding a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)). The private key never goes in a repository, an issue, or a chat. The same public key can also sign commits. Signing is the next section.
+
+An account key can be used on every repository your user can reach. A **deploy key** is attached to one repository, for a server or a script. Docs: [Managing deploy keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys). It is read-only unless you grant write. Write on a deploy key can do what a collaborator can do. [GitHub](https://github.com/) recommends a [GitHub App](https://docs.github.com/en/apps) when you want a narrower permission than that. The private half still lives only on the server.
+
+The **Code** button's HTTPS address is what this book uses. The SSH address is the other line on that menu. You do not need it while you commit in the browser. [GitHub](https://github.com/) deletes an account SSH key that has not been used for a year.
+
+**Do this:** avatar → **Settings** → **SSH and GPG keys**. Read the list. If it is empty, leave it empty. Do not click **New SSH key**. Do not add a deploy key under `hello-git` → **Settings** → **Deploy keys**. [GPG](https://gnupg.org/) on that page is the signing key list, not a key you create today.
+
+**Working rule:** the public key is what [GitHub](https://github.com/) stores. The private key stays on one machine. A deploy key is one repository, not your whole account.
+
+### Signed Commits and Verified Badges
+
+A signature is evidence that a holder of a key produced the commit. [GitHub](https://github.com/) checks signatures made with [GPG](https://gnupg.org/), [SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh), or S/MIME against a public key on the account. Docs: [About commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification). A verified signature gets a **Verified** badge. A signature [GitHub](https://github.com/) cannot check gets **Unverified**. With vigilant mode off, which is the default, an unsigned commit shows no badge at all.
+
+Commits you make in the web editor are signed by [GitHub](https://github.com/) itself. They show as verified. The public key for that signature is published at [github.com/web-flow.gpg](https://github.com/web-flow.gpg). You did not configure that. [GitHub Codespaces](https://github.com/features/codespaces) can be set to sign too. This book does not open a codespace.
+
+**Vigilant mode** labels every commit of yours, including unsigned ones, which then show **Unverified**. Turn it on only if you sign every local commit and the committer email is an email already verified on your account ([Displaying verification statuses for all of your commits](https://docs.github.com/en/authentication/managing-commit-signature-verification/displaying-verification-statuses-for-all-of-your-commits)). Do not turn it on for this book. A badge is not a code review. It does not mean the diff is correct.
+
+**Do this:** on `hello-git`, open any commit you made in the web editor, such as `Initial commit`. Read the verification badge. It should say verified because the web UI signed it. Do not open **Settings** to enable vigilant mode.
+
+**Working rule:** the web editor's commits are signed by [GitHub](https://github.com/). A local commit is unsigned until you sign it. Vigilant mode stays off.
+
+### Client Hooks vs Host Rulesets
+
+A **hook** is a script [Git](https://git-scm.com/) runs on your machine at a moment you choose: before a commit, after a commit, before a push. Docs: [githooks](https://git-scm.com/docs/githooks). The samples live inside `.git/hooks` on a clone. That directory is not pushed. A teammate who clones the repository does not get your scripts. You can skip a client hook. It guards the person who opts in.
+
+A **ruleset** runs on [GitHub](https://github.com/) for everyone who pushes or merges. You already saved `practice-require-pr` with enforcement **Disabled** ([About rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)). Disabled means the rule is stored and does not apply. A client hook cannot replace it, and turning the ruleset **Active** would block the direct commits this book still uses.
+
+There is no hook button in the web editor. Do not add a `pre-commit` script to `hello-git`, and do not set a hooks path.
+
+**Working rule:** a hook binds one clone. A ruleset binds the repository on the host. Yours stays disabled.
+
+### CI Checks as Merge Gates
+
+A **check** is a program that reports pass or fail on a commit. [GitHub Actions](https://docs.github.com/en/actions) is the host's way to run that program. Docs: [Workflows](https://docs.github.com/en/actions/concepts/workflows-and-actions/workflows), [Status checks](https://docs.github.com/en/pull-requests/reference/status-checks). Earlier, the Checks tab was empty. Empty meant nobody had configured a test. A green check means the configured program finished as it was written. It does not mean the README was reviewed.
+
+A ruleset can require a named check before merge. We will not require this one. `practice-require-pr` stays **Disabled**. The merge box stays usable.
+
+**Do this** if the **Actions** tab is available on `hello-git`. If the tab says [GitHub Actions](https://docs.github.com/en/actions) are disabled, read that page and stop. Do not start a paid plan.
+
+1. **Add file**. Name it `.github/workflows/practice.yml`.
+2. Paste:
+
+```yaml
+name: Practice check
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "A check for hello-git. It does not test the README."
+```
+
+3. Commit directly to `main`. Message: `Add a practice check`.
+4. Open the **Actions** tab. The run named **Practice check** should finish green. If [GitHub](https://github.com/) asks you to approve a workflow, approve only this file, which you just wrote.
+5. Open the run. The log is the echo line. It did not open `README.md`.
+
+**Working rule:** a green check is the program's own report. Required checks are a ruleset. This practice check is not required.
+
+### Summary: Appendix F: Signing, SSH, Hooks, and CI Checks
+
+An SSH key pair splits a secret on your machine from a public key on the account ([About SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/about-ssh)). A deploy key is that idea for one repository ([Managing deploy keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys)). You added neither. Web-editor commits are signed by [GitHub](https://github.com/) and show **Verified** ([About commit signature verification](https://docs.github.com/en/authentication/managing-commit-signature-verification/about-commit-signature-verification)). Vigilant mode stays off. Hooks are local scripts ([githooks](https://git-scm.com/docs/githooks)). The ruleset on `hello-git` stays **Disabled**. `.github/workflows/practice.yml` runs an echo on [GitHub Actions](https://docs.github.com/en/actions) and does not gate merges ([Status checks](https://docs.github.com/en/pull-requests/reference/status-checks)). Next, we will walk through Appendix G: Restore, Stash, and Clean Working Trees.
